@@ -1,0 +1,25 @@
+build/
+dist/
+.DS_Store
+.swiftpm/
+.build/
+*.xcuserstate
+xcuserdata/
+*.xcresult/
+Lab/Artifacts/
+*.log
+__pycache__/
+.env
+.env.*
+!.env.example
+*.p8
+*.p12
+*.pfx
+*.key
+*.pem
+*.mobileprovision
+*.provisionprofile
+
+# Internal operational records never belong in the public repository.
+/Sales/
+/Docs/Evidence/

@@ -1,0 +1,3270 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "1. Open Privacy & Security → Full Disk Access.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Open Privacy & Security → Full Disk Access."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. 개인정보 보호 및 보안 → 전체 디스크 접근 권한을 여세요."
+          }
+        }
+      }
+    },
+    "1. Open System Settings below.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Open System Settings below."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. 아래에서 시스템 설정을 여세요."
+          }
+        }
+      }
+    },
+    "2. Add NoBadge from Applications and turn it on.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Add NoBadge from Applications and turn it on."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. 응용 프로그램의 NoBadge를 추가하고 켜세요."
+          }
+        }
+      }
+    },
+    "3. Return here and check access.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3. Return here and check access."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3. 이 화면으로 돌아와 접근 권한을 확인하세요."
+          }
+        }
+      }
+    },
+    "3. Return here. Quit and reopen NoBadge if macOS asks.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3. Return here. Quit and reopen NoBadge if macOS asks."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3. 여기로 돌아오세요. macOS가 요청하면 NoBadge를 종료 후 다시 여세요."
+          }
+        }
+      }
+    },
+    "A quieter Dock when you focus.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A quieter Dock when you focus."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중할 때, 더 조용한 Dock."
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "정보"
+          }
+        }
+      }
+    },
+    "Access confirmed.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access confirmed."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접근 권한을 확인했습니다."
+          }
+        }
+      }
+    },
+    "Access needs attention": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access needs attention"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접근 권한이 필요해요"
+          }
+        }
+      }
+    },
+    "Activate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activate"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "활성화"
+          }
+        }
+      }
+    },
+    "Activate NoBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activate NoBadge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 활성화"
+          }
+        }
+      }
+    },
+    "Allow Full Disk Access to read Focus and manage badges.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Full Disk Access to read Focus and manage badges."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드를 읽고 배지를 관리하도록 전체 디스크 접근 권한을 허용하세요."
+          }
+        }
+      }
+    },
+    "Allow NoBadge to manage badge settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow NoBadge to manage badge settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge가 배지 설정을 관리하도록 허용하세요."
+          }
+        }
+      }
+    },
+    "Allow access to read Focus and manage badge settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow access to read Focus and manage badge settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드와 배지 설정을 사용하도록 접근 권한을 허용하세요."
+          }
+        }
+      }
+    },
+    "Any Focus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Any Focus"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모든 집중 모드"
+          }
+        }
+      }
+    },
+    "Approve NoBadge in Login Items to finish.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Approve NoBadge in Login Items to finish."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인 항목에서 NoBadge를 허용하면 완료됩니다."
+          }
+        }
+      }
+    },
+    "Apps": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱"
+          }
+        }
+      }
+    },
+    "Apps appear after they register for notifications.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps appear after they register for notifications."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "알림에 등록된 앱이 여기에 표시됩니다."
+          }
+        }
+      }
+    },
+    "Apps to keep visible…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps to keep visible…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지를 계속 표시할 앱…"
+          }
+        }
+      }
+    },
+    "Apps with their own badge system may not respond to macOS badge settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps with their own badge system may not respond to macOS badge settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자체 배지를 사용하는 앱에는 macOS 배지 설정이 적용되지 않을 수 있습니다."
+          }
+        }
+      }
+    },
+    "Automatic hiding is off": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic hiding is off"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동 숨김이 꺼져 있어요"
+          }
+        }
+      }
+    },
+    "Automatic hiding is paused": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic hiding is paused"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동 숨김이 일시 중지됐어요"
+          }
+        }
+      }
+    },
+    "Automatic hiding stays off until this macOS build is qualified.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic hiding stays off until this macOS build is qualified."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 macOS 버전의 호환성을 확인할 때까지 자동 숨김이 중지됩니다."
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "뒤로"
+          }
+        }
+      }
+    },
+    "Badge and Focus processing happens locally. No usage analytics or automatic diagnostic uploads.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Badge and Focus processing happens locally. No usage analytics or automatic diagnostic uploads."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지와 집중 모드 처리는 Mac 안에서 이루어집니다. 사용 분석이나 진단 정보 자동 업로드는 없습니다."
+          }
+        }
+      }
+    },
+    "Badge settings could not be confirmed.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Badge settings could not be confirmed."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지 설정 적용을 확인할 수 없습니다."
+          }
+        }
+      }
+    },
+    "Badges do not control notification sounds, banners, or message delivery. Focus handles those settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Badges do not control notification sounds, banners, or message delivery. Focus handles those settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지 숨김은 알림 소리, 배너, 메시지 수신을 제어하지 않습니다. 해당 설정은 집중 모드에서 관리합니다."
+          }
+        }
+      }
+    },
+    "Before": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "평소"
+          }
+        }
+      }
+    },
+    "Built from source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Built from source"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "소스에서 빌드됨"
+          }
+        }
+      }
+    },
+    "Buy NoBadge — $2.99": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buy NoBadge — $2.99"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 구매 — $2.99"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "취소"
+          }
+        }
+      }
+    },
+    "Cannot identify the current user.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot identify the current user."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 사용자를 확인할 수 없습니다."
+          }
+        }
+      }
+    },
+    "Cannot persist notification settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot persist notification settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "알림 설정을 저장할 수 없습니다."
+          }
+        }
+      }
+    },
+    "Cannot prepare notification settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot prepare notification settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "알림 설정 변경을 준비할 수 없습니다."
+          }
+        }
+      }
+    },
+    "Cannot reach the license service. Check your connection and try again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot reach the license service. Check your connection and try again."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스 서버에 연결할 수 없습니다. 인터넷 연결 후 다시 시도하세요."
+          }
+        }
+      }
+    },
+    "Cannot synchronize notification settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot synchronize notification settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "알림 설정을 동기화할 수 없습니다."
+          }
+        }
+      }
+    },
+    "Check Focus again": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check Focus again"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드 다시 확인"
+          }
+        }
+      }
+    },
+    "Check access": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check access"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접근 권한 확인"
+          }
+        }
+      }
+    },
+    "Check again": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check again"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 확인"
+          }
+        }
+      }
+    },
+    "Check for Updates": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for Updates"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "업데이트 확인"
+          }
+        }
+      }
+    },
+    "Check for updates automatically": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for updates automatically"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "업데이트 자동 확인"
+          }
+        }
+      }
+    },
+    "Check the Dock badge. Restore it when you are done; the test ends automatically after 30 seconds.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the Dock badge. Restore it when you are done; the test ends automatically after 30 seconds."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock의 배지를 확인하세요. 확인 후 복원해 주세요. 테스트는 30초 후 자동으로 끝납니다."
+          }
+        }
+      }
+    },
+    "Checking Focus…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking Focus…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드 확인 중…"
+          }
+        }
+      }
+    },
+    "Choose an app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an app"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 선택"
+          }
+        }
+      }
+    },
+    "Choose apps to keep visible in Settings → Apps. You can pause or quit from the menu bar at any time.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose apps to keep visible in Settings → Apps. You can pause or quit from the menu bar at any time."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정 → 앱에서 배지를 계속 표시할 앱을 선택하세요. 메뉴 막대에서 언제든 일시 중지하거나 종료할 수 있습니다."
+          }
+        }
+      }
+    },
+    "Choose at least one Focus.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose at least one Focus."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드를 하나 이상 선택하세요."
+          }
+        }
+      }
+    },
+    "Choose…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택…"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "닫기"
+          }
+        }
+      }
+    },
+    "Compatibility details": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatibility details"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "호환성 상세 정보"
+          }
+        }
+      }
+    },
+    "Connect to the internet to verify your license.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect to the internet to verify your license."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스를 확인하려면 인터넷에 연결하세요."
+          }
+        }
+      }
+    },
+    "Continue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속"
+          }
+        }
+      }
+    },
+    "Continue setup": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue setup"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정 계속하기"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복사"
+          }
+        }
+      }
+    },
+    "Cut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cut"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "잘라내기"
+          }
+        }
+      }
+    },
+    "Deactivate this Mac": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deactivate this Mac"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 Mac 비활성화"
+          }
+        }
+      }
+    },
+    "Diagnostics contain only app version, compatibility and status. Your Focus names, app list and messages stay private.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostics contain only app version, compatibility and status. Your Focus names, app list and messages stay private."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "진단에는 앱 버전, 호환성, 상태만 포함됩니다. 집중 모드 이름, 앱 목록, 메시지는 포함되지 않습니다."
+          }
+        }
+      }
+    },
+    "Diagnostics could not be saved.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostics could not be saved."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "진단 정보를 저장할 수 없습니다."
+          }
+        }
+      }
+    },
+    "Diagnostics stay on your Mac. The export excludes Focus names, application lists, message data, and recovery journals.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostics stay on your Mac. The export excludes Focus names, application lists, message data, and recovery journals."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "진단 정보는 Mac에만 저장됩니다. 집중 모드 이름, 앱 목록, 메시지 데이터, 복원 기록은 포함하지 않습니다."
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "완료"
+          }
+        }
+      }
+    },
+    "Download purchased updates": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download purchased updates"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "구매한 업데이트 다운로드"
+          }
+        }
+      }
+    },
+    "Drag NoBadge to Applications in the installer window, then open the copy in Applications. Complete the access guide from the installed app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag NoBadge to Applications in the installer window, then open the copy in Applications. Complete the access guide from the installed app."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설치 창에서 NoBadge를 응용 프로그램으로 드래그한 다음, 응용 프로그램 안의 앱을 여세요. 설치된 앱에서 접근 권한 안내를 따라 주세요."
+          }
+        }
+      }
+    },
+    "During Focus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "During Focus"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중할 때"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "편집"
+          }
+        }
+      }
+    },
+    "Enable NoBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable NoBadge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 켜기"
+          }
+        }
+      }
+    },
+    "Enter your purchase license key to use NoBadge.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your purchase license key to use NoBadge."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "구매한 라이선스 키를 입력해 NoBadge를 사용하세요."
+          }
+        }
+      }
+    },
+    "Export diagnostics…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export diagnostics…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "진단 정보 저장…"
+          }
+        }
+      }
+    },
+    "Find my license key": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find my license key"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내 라이선스 키 찾기"
+          }
+        }
+      }
+    },
+    "Finish setup": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish setup"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정을 완료하세요"
+          }
+        }
+      }
+    },
+    "Fix access": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fix access"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접근 권한 설정"
+          }
+        }
+      }
+    },
+    "Focus could not be read. Check access below.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Focus could not be read. Check access below."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드를 읽을 수 없습니다. 접근 권한을 확인하세요."
+          }
+        }
+      }
+    },
+    "Focus is not available yet. Turn on a Focus once, then check again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Focus is not available yet. Turn on a Focus once, then check again."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드를 아직 읽을 수 없습니다. 집중 모드를 한 번 켠 뒤 다시 확인하세요."
+          }
+        }
+      }
+    },
+    "Focus is off": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Focus is off"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드가 꺼져 있습니다"
+          }
+        }
+      }
+    },
+    "Focus needs attention": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Focus needs attention"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드를 확인해 주세요"
+          }
+        }
+      }
+    },
+    "Full Disk Access allows broad file access. NoBadge uses it only for Focus and notification settings; it does not read messages or documents.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Full Disk Access allows broad file access. NoBadge uses it only for Focus and notification settings; it does not read messages or documents."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전체 디스크 접근 권한은 폭넓은 파일 접근을 허용합니다. NoBadge는 집중 모드와 알림 설정에만 사용하며 메시지나 문서를 읽지 않습니다."
+          }
+        }
+      }
+    },
+    "Full Disk Access is enabled": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Full Disk Access is enabled"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전체 디스크 접근 권한이 켜져 있습니다"
+          }
+        }
+      }
+    },
+    "Full Disk Access is needed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Full Disk Access is needed"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전체 디스크 접근 권한이 필요합니다"
+          }
+        }
+      }
+    },
+    "General": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "일반"
+          }
+        }
+      }
+    },
+    "Get the latest download from Lemon Squeezy My Orders using the email address on your receipt. NoBadge does not check for updates or download files automatically.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get the latest download from Lemon Squeezy My Orders using the email address on your receipt. NoBadge does not check for updates or download files automatically."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "영수증의 이메일 주소로 Lemon Squeezy 내 주문에 로그인하면 최신 파일을 받을 수 있습니다. NoBadge는 업데이트를 자동으로 확인하거나 파일을 다운로드하지 않습니다."
+          }
+        }
+      }
+    },
+    "Get the signed app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get the signed app"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "서명된 앱 다운로드"
+          }
+        }
+      }
+    },
+    "Help & Recovery": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help & Recovery"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "도움말 및 복원"
+          }
+        }
+      }
+    },
+    "Help & Recovery…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help & Recovery…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "도움말 및 복원…"
+          }
+        }
+      }
+    },
+    "Hide automatically during Focus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide automatically during Focus"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드에서 자동으로 숨기기"
+          }
+        }
+      }
+    },
+    "Hide badges during any Focus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide badges during any Focus"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모든 집중 모드에서 배지 숨기기"
+          }
+        }
+      }
+    },
+    "Hide badges while you focus.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide badges while you focus."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중하는 동안 배지를 숨기세요."
+          }
+        }
+      }
+    },
+    "Hide for 30 minutes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide for 30 minutes"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30분 동안 숨기기"
+          }
+        }
+      }
+    },
+    "Hiding badges": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiding badges"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지를 숨기고 있어요"
+          }
+        }
+      }
+    },
+    "How is NoBadge?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How is NoBadge?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge는 어떠셨나요?"
+          }
+        }
+      }
+    },
+    "Inspired by FocusNoBadges and FocusPlsNoBadges. Original implementation; no upstream code or artwork included.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspired by FocusNoBadges and FocusPlsNoBadges. Original implementation; no upstream code or artwork included."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FocusNoBadges와 FocusPlsNoBadges에서 영감을 받았습니다. 코드는 직접 구현했으며 원본 코드나 이미지가 포함되어 있지 않습니다."
+          }
+        }
+      }
+    },
+    "Install NoBadge first": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install NoBadge first"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "먼저 NoBadge를 설치하세요"
+          }
+        }
+      }
+    },
+    "Keep badges visible for these apps.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep badges visible for these apps."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 앱들의 배지를 계속 표시합니다."
+          }
+        }
+      }
+    },
+    "Keep open": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep open"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속 열어 두기"
+          }
+        }
+      }
+    },
+    "Kept visible": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kept visible"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속 표시"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "언어"
+          }
+        }
+      }
+    },
+    "License": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "License"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스"
+          }
+        }
+      }
+    },
+    "License active": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "License active"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스 활성화됨"
+          }
+        }
+      }
+    },
+    "License key": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "License key"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스 키"
+          }
+        }
+      }
+    },
+    "Login settings could not be updated.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Login settings could not be updated."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인 설정을 변경할 수 없습니다."
+          }
+        }
+      }
+    },
+    "No supported apps yet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No supported apps yet"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아직 지원 앱이 없습니다"
+          }
+        }
+      }
+    },
+    "No supported enabled badges to hide.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No supported enabled badges to hide."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "숨길 수 있는 활성 배지가 없어요."
+          }
+        }
+      }
+    },
+    "NoBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge"
+          }
+        }
+      }
+    },
+    "NoBadge Settings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge Settings"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 설정"
+          }
+        }
+      }
+    },
+    "NoBadge cannot read Focus right now. Manual hiding is still available.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge cannot read Focus right now. Manual hiding is still available."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금 집중 모드를 읽을 수 없습니다. 수동 숨김은 사용할 수 있어요."
+          }
+        }
+      }
+    },
+    "NoBadge cannot read Focus yet. Turn on a Focus once, then check access again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge cannot read Focus yet. Turn on a Focus once, then check access again."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아직 집중 모드를 읽을 수 없습니다. 집중 모드를 한 번 켠 뒤 접근 권한을 다시 확인하세요."
+          }
+        }
+      }
+    },
+    "NoBadge could not save your license in Keychain. Please try again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge could not save your license in Keychain. Please try again."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스를 키체인에 저장할 수 없습니다. 다시 시도하세요."
+          }
+        }
+      }
+    },
+    "NoBadge could not save your settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge could not save your settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 설정을 저장할 수 없습니다."
+          }
+        }
+      }
+    },
+    "NoBadge hides supported app badges during Focus and restores your previous badge settings afterward.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge hides supported app badges during Focus and restores your previous badge settings afterward."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드가 켜지면 지원하는 앱의 배지를 숨기고, 끝나면 이전 배지 설정으로 복원합니다."
+          }
+        }
+      }
+    },
+    "NoBadge needs Full Disk Access to read Focus and change badge settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge needs Full Disk Access to read Focus and change badge settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드를 읽고 배지 설정을 변경하려면 전체 디스크 접근 권한이 필요합니다."
+          }
+        }
+      }
+    },
+    "Not now": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not now"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "나중에"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "확인"
+          }
+        }
+      }
+    },
+    "On": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "켜짐"
+          }
+        }
+      }
+    },
+    "One purchase, up to 3 Macs. Internet is needed for activation and occasional license checks. After verification, NoBadge can work offline for up to 30 days.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One purchase, up to 3 Macs. Internet is needed for activation and occasional license checks. After verification, NoBadge can work offline for up to 30 days."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "한 번 구매로 Mac 3대까지 사용할 수 있습니다. 활성화와 주기적 라이선스 확인에는 인터넷이 필요합니다. 확인 후 최대 30일간 오프라인으로 사용할 수 있습니다."
+          }
+        }
+      }
+    },
+    "Only badges change. Focus controls notification sounds and banners.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only badges change. Focus controls notification sounds and banners."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지만 변경합니다. 알림 소리와 배너는 집중 모드에서 제어합니다."
+          }
+        }
+      }
+    },
+    "Open My Orders": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open My Orders"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내 주문 열기"
+          }
+        }
+      }
+    },
+    "Open NoBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open NoBadge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 열기"
+          }
+        }
+      }
+    },
+    "Open System Settings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open System Settings"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 열기"
+          }
+        }
+      }
+    },
+    "Open at login": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open at login"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인 시 실행"
+          }
+        }
+      }
+    },
+    "Open at login is enabled.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open at login is enabled."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인 시 실행이 켜져 있습니다."
+          }
+        }
+      }
+    },
+    "Open at login is off.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open at login is off."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "로그인 시 실행이 꺼져 있습니다."
+          }
+        }
+      }
+    },
+    "Optional: check a supported app that already has a Dock badge.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional: check a supported app that already has a Dock badge."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택 사항: Dock에 배지가 있는 앱으로 확인해 보세요."
+          }
+        }
+      }
+    },
+    "Paste": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "붙여넣기"
+          }
+        }
+      }
+    },
+    "Paste the license key from your purchase receipt to start using NoBadge.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste the license key from your purchase receipt to start using NoBadge."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "구매 영수증의 라이선스 키를 붙여 넣으면 NoBadge를 사용할 수 있습니다."
+          }
+        }
+      }
+    },
+    "Pause NoBadge before changing badge settings in System Settings. If the app is force-quit, open it again to restore pending settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause NoBadge before changing badge settings in System Settings. If the app is force-quit, open it again to restore pending settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정에서 배지 설정을 바꾸기 전에 NoBadge를 일시 중지하세요. 앱을 강제 종료했다면 다시 열어 남은 설정을 복원하세요."
+          }
+        }
+      }
+    },
+    "Pause NoBadge before changing badge settings in System Settings. Reopen NoBadge after a force quit to restore pending settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause NoBadge before changing badge settings in System Settings. Reopen NoBadge after a force quit to restore pending settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정에서 배지 설정을 바꾸기 전에 NoBadge를 일시 중지하세요. 강제 종료했다면 다시 열어 남은 설정을 복원하세요."
+          }
+        }
+      }
+    },
+    "Please wait…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please wait…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "잠시 기다려 주세요…"
+          }
+        }
+      }
+    },
+    "Prepare to uninstall": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare to uninstall"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 삭제 준비"
+          }
+        }
+      }
+    },
+    "Preview": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "미리보기"
+          }
+        }
+      }
+    },
+    "Privacy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "개인정보 보호"
+          }
+        }
+      }
+    },
+    "Purchase help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchase help"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "구매 도움말"
+          }
+        }
+      }
+    },
+    "Quit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "종료"
+          }
+        }
+      }
+    },
+    "Quit anyway": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit anyway"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "그냥 종료"
+          }
+        }
+      }
+    },
+    "Rate or review": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rate or review"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "평점 및 리뷰"
+          }
+        }
+      }
+    },
+    "Ready for Focus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready for Focus"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중할 준비가 됐어요"
+          }
+        }
+      }
+    },
+    "Ready. Turn on Focus as usual.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready. Turn on Focus as usual."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "준비됐어요. 평소처럼 집중 모드를 켜세요."
+          }
+        }
+      }
+    },
+    "Redo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redo"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 실행"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "제거"
+          }
+        }
+      }
+    },
+    "Restore & Quit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore & Quit"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복원하고 종료"
+          }
+        }
+      }
+    },
+    "Restore badges before removing NoBadge.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore badges before removing NoBadge."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge를 삭제하기 전에 배지를 복원하세요."
+          }
+        }
+      }
+    },
+    "Restore previous badge settings before installing the update.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore previous badge settings before installing the update."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "업데이트를 설치하기 전에 이전 배지 설정을 복원하세요."
+          }
+        }
+      }
+    },
+    "Restore previous settings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore previous settings"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이전 설정 복원"
+          }
+        }
+      }
+    },
+    "Restore test badge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore test badge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테스트 배지 복원"
+          }
+        }
+      }
+    },
+    "Resume now": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume now"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금 다시 시작"
+          }
+        }
+      }
+    },
+    "Retry restoration": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry restoration"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복원 다시 시도"
+          }
+        }
+      }
+    },
+    "Retry restoration or keep NoBadge open. Quitting anyway may leave some badges turned off; open NoBadge again to recover.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry restoration or keep NoBadge open. Quitting anyway may leave some badges turned off; open NoBadge again to recover."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복원을 다시 시도하거나 NoBadge를 계속 열어 두세요. 그냥 종료하면 일부 배지가 꺼진 채 남을 수 있습니다. 다시 열면 복원할 수 있어요."
+          }
+        }
+      }
+    },
+    "Retry safely": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry safely"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안전하게 다시 시도"
+          }
+        }
+      }
+    },
+    "Review diagnostics": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review diagnostics"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "진단 정보 확인"
+          }
+        }
+      }
+    },
+    "Review setup": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review setup"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정 안내 다시 보기"
+          }
+        }
+      }
+    },
+    "Saved recovery information could not be read.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved recovery information could not be read."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장된 복원 정보를 읽을 수 없습니다."
+          }
+        }
+      }
+    },
+    "Saved settings could not be read. Your recovery information has been kept.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved settings could not be read. Your recovery information has been kept."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장된 설정을 읽을 수 없습니다. 복원 정보는 보관되어 있습니다."
+          }
+        }
+      }
+    },
+    "Save…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장…"
+          }
+        }
+      }
+    },
+    "Search apps": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search apps"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱 검색"
+          }
+        }
+      }
+    },
+    "Select All": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select All"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모두 선택"
+          }
+        }
+      }
+    },
+    "Selected Focus modes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected Focus modes"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "선택한 집중 모드"
+          }
+        }
+      }
+    },
+    "Set up NoBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set up NoBadge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 설정하기"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정"
+          }
+        }
+      }
+    },
+    "Show NoBadge in Finder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show NoBadge in Finder"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder에서 NoBadge 보기"
+          }
+        }
+      }
+    },
+    "Show badges for 15 minutes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show badges for 15 minutes"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "15분 동안 배지 표시"
+          }
+        }
+      }
+    },
+    "Show badges now": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show badges now"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금 배지 표시"
+          }
+        }
+      }
+    },
+    "Show installer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show installer"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설치 창 보기"
+          }
+        }
+      }
+    },
+    "Showing badges": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Showing badges"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지를 표시하고 있어요"
+          }
+        }
+      }
+    },
+    "Some apps draw their own badges and cannot be controlled. Only registered supported apps appear here.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some apps draw their own badges and cannot be controlled. Only registered supported apps appear here."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자체 배지를 표시하는 일부 앱은 제어할 수 없습니다. 등록된 지원 앱만 이 목록에 표시됩니다."
+          }
+        }
+      }
+    },
+    "Some badge settings still need restoring": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some badge settings still need restoring"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "일부 배지 설정을 복원해야 해요"
+          }
+        }
+      }
+    },
+    "Source & updates": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source & updates"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "소스 및 업데이트"
+          }
+        }
+      }
+    },
+    "Start NoBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start NoBadge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge 시작"
+          }
+        }
+      }
+    },
+    "Support": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Support"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지원"
+          }
+        }
+      }
+    },
+    "Test app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test app"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테스트할 앱"
+          }
+        }
+      }
+    },
+    "Test this badge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test this badge"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 배지 테스트하기"
+          }
+        }
+      }
+    },
+    "The export contains only version, compatibility, state, and counts. It does not include Focus names, app lists, message data, or recovery journals.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The export contains only version, compatibility, state, and counts. It does not include Focus names, app lists, message data, or recovery journals."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "버전, 호환성, 상태와 개수만 저장됩니다. 집중 모드 이름, 앱 목록, 메시지 데이터와 복원 기록은 포함하지 않습니다."
+          }
+        }
+      }
+    },
+    "These macOS settings have changed. Automatic hiding is paused.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These macOS settings have changed. Automatic hiding is paused."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 설정 형식이 변경되었습니다. 자동 숨김을 일시 중지했습니다."
+          }
+        }
+      }
+    },
+    "This build has not been qualified.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This build has not been qualified."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아직 확인하지 않은 macOS 버전입니다."
+          }
+        }
+      }
+    },
+    "This build is qualified for the current adapter.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This build is qualified for the current adapter."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 어댑터에서 확인한 macOS 버전입니다."
+          }
+        }
+      }
+    },
+    "This copy needs no purchase key. Rebuild from the latest source to update it.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This copy needs no purchase key. Rebuild from the latest source to update it."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 버전에는 구매 키가 필요하지 않습니다. 최신 소스로 다시 빌드하면 업데이트할 수 있습니다."
+          }
+        }
+      }
+    },
+    "This key belongs to a different product. Use your NoBadge license key.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This key belongs to a different product. Use your NoBadge license key."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다른 제품의 키입니다. NoBadge 라이선스 키를 사용하세요."
+          }
+        }
+      }
+    },
+    "This key has no available activations. Deactivate another Mac or contact support.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This key has no available activations. Deactivate another Mac or contact support."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "활성화 한도에 도달했습니다. 다른 Mac을 비활성화하거나 지원팀에 문의하세요."
+          }
+        }
+      }
+    },
+    "This license is not valid. Check the key in your purchase receipt.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This license is not valid. Check the key in your purchase receipt."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "유효하지 않은 라이선스입니다. 구매 영수증의 키를 확인하세요."
+          }
+        }
+      }
+    },
+    "This macOS version needs a compatibility update.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This macOS version needs a compatibility update."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 macOS 버전의 호환성 업데이트가 필요합니다."
+          }
+        }
+      }
+    },
+    "This macOS version needs an update": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This macOS version needs an update"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 호환성 업데이트가 필요해요"
+          }
+        }
+      }
+    },
+    "This permission allows broad file access. NoBadge only uses Focus and notification settings. It does not read messages or documents.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This permission allows broad file access. NoBadge only uses Focus and notification settings. It does not read messages or documents."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 권한은 폭넓은 파일 접근을 허용합니다. NoBadge는 집중 모드와 알림 설정에만 사용하며 메시지나 문서는 읽지 않습니다."
+          }
+        }
+      }
+    },
+    "Turn on Focus as usual.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on Focus as usual."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "평소처럼 집중 모드를 켜세요."
+          }
+        }
+      }
+    },
+    "Turn on Focus as usual. NoBadge hides supported badges and restores your previous settings when Focus ends.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on Focus as usual. NoBadge hides supported badges and restores your previous settings when Focus ends."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "평소처럼 집중 모드를 켜세요. NoBadge가 지원 앱의 배지를 숨기고 집중 모드가 끝나면 이전 설정으로 복원합니다."
+          }
+        }
+      }
+    },
+    "Unavailable Focus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unavailable Focus"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사용할 수 없는 집중 모드"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undo"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "실행 취소"
+          }
+        }
+      }
+    },
+    "Until": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Until"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "종료 시각"
+          }
+        }
+      }
+    },
+    "Update hosting is not configured for this preview. Keep using this version offline; check the release notes for availability.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update hosting is not configured for this preview. Keep using this version offline; check the release notes for availability."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 미리보기 버전은 아직 업데이트 서버가 연결되지 않았습니다. 현재 버전은 오프라인에서도 사용할 수 있어요."
+          }
+        }
+      }
+    },
+    "Updates are checked daily. You choose when to download and install. Badge settings are restored before restarting.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates are checked daily. You choose when to download and install. Badge settings are restored before restarting."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "매일 업데이트를 확인합니다. 다운로드와 설치 시점은 직접 선택합니다. 재시작 전에 배지 설정을 복원합니다."
+          }
+        }
+      }
+    },
+    "Updates are not available for this preview yet. This version will keep working offline.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates are not available for this preview yet. This version will keep working offline."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 미리보기 버전의 업데이트는 아직 제공되지 않습니다. 현재 버전은 오프라인에서도 사용할 수 있어요."
+          }
+        }
+      }
+    },
+    "Updates are temporarily unavailable.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates are temporarily unavailable."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금은 업데이트를 확인할 수 없습니다."
+          }
+        }
+      }
+    },
+    "Updating badge settings…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updating badge settings…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지 설정 적용 중…"
+          }
+        }
+      }
+    },
+    "Verification mode": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verification mode"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검증 모드"
+          }
+        }
+      }
+    },
+    "Verification mode · synthetic apps only": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verification mode · synthetic apps only"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검증 모드 · 테스트 앱만 제어"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "버전"
+          }
+        }
+      }
+    },
+    "When to hide": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When to hide"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "숨기는 시점"
+          }
+        }
+      }
+    },
+    "Window": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Window"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "윈도우"
+          }
+        }
+      }
+    },
+    "You can keep badges for specific apps in Settings.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can keep badges for specific apps in Settings."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "특정 앱의 배지는 설정에서 계속 표시할 수 있어요."
+          }
+        }
+      }
+    },
+    "You can skip this test and enable NoBadge.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can skip this test and enable NoBadge."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테스트를 건너뛰고 NoBadge를 켜도 됩니다."
+          }
+        }
+      }
+    },
+    "You can still hide badges for 30 minutes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can still hide badges for 30 minutes."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30분 동안 수동으로 숨길 수 있어요."
+          }
+        }
+      }
+    },
+    "You're ready.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You're ready."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "준비됐습니다."
+          }
+        }
+      }
+    },
+    "Your license is active. It will be checked when you are back online.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your license is active. It will be checked when you are back online."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스가 활성화되어 있습니다. 인터넷 연결 시 다시 확인합니다."
+          }
+        }
+      }
+    },
+    "Your license is no longer active. Check your purchase or contact support.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your license is no longer active. Check your purchase or contact support."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "라이선스가 더 이상 활성화되어 있지 않습니다. 구매를 확인하거나 지원팀에 문의하세요."
+          }
+        }
+      }
+    },
+    "Your notification settings changed. NoBadge paused to keep them safe.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your notification settings changed. NoBadge paused to keep them safe."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "알림 설정이 변경되어 안전하게 유지하기 위해 일시 중지했습니다."
+          }
+        }
+      }
+    },
+    "Your previous settings are restored.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your previous settings are restored."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이전 배지 설정으로 복원했습니다."
+          }
+        }
+      }
+    },
+    "Your purchase is activated on this Mac.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your purchase is activated on this Mac."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 Mac에서 구매 라이선스가 활성화되었습니다."
+          }
+        }
+      }
+    },
+    "macOS requires Full Disk Access for these settings. This permission can allow broad file access. NoBadge uses it only for Focus settings and notification preferences; it does not read your messages or documents.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS requires Full Disk Access for these settings. This permission can allow broad file access. NoBadge uses it only for Focus settings and notification preferences; it does not read your messages or documents."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 설정을 사용하려면 전체 디스크 접근 권한이 필요합니다. 이 권한은 폭넓은 파일 접근을 허용하지만, NoBadge는 집중 모드와 알림 설정에만 사용합니다. 메시지나 문서는 읽지 않습니다."
+          }
+        }
+      }
+    },
+    "macOS settings are not available yet. Turn on a Focus once, then check again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS settings are not available yet. Turn on a Focus once, then check again."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 설정이 아직 없습니다. 집중 모드를 한 번 켠 뒤 다시 확인하세요."
+          }
+        }
+      }
+    },
+    "supported apps": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "supported apps"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "개 앱"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
