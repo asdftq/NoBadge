@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.39
+
+- Support Apple Silicon on macOS 27, preserving the macOS 26.5.1 and later adapter.
+- Select compatibility by OS family and validate settings at runtime instead of blocking each new minor or patch build.
+- Restore pending sessions across compatible macOS 26/27 upgrades, retaining schema, cache and transaction checks.
+- Clarify that unsupported systems need a NoBadge update.
+
 ## 0.1.38
 
 - Publish the app source under the MIT license.

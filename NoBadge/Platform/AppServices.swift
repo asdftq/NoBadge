@@ -31,15 +31,6 @@ actor PlatformReader {
     return PlatformInputs(focus: focus, notifications: snapshot)
   }
 }
-struct CompatibilityManifest: Decodable {
-  let adapterID: String
-  let qualifiedTargets: [QualifiedTarget]
-  let minimumVersion: String
-}
-struct QualifiedTarget: Decodable {
-  let osBuild: String
-  let architecture: String
-}
 func currentArchitecture() -> String {
   #if arch(arm64)
     return "arm64"

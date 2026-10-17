@@ -1,1 +1,35 @@
-{"adapterID":"usernoted-badge-v1","qualifiedTargets":[{"osBuild":"25F80","architecture":"arm64"},{"osBuild":"25G72","architecture":"arm64"}],"minimumVersion":"15.0"}
+{
+  "adapterID": "usernoted-badge-v1",
+  "qualifiedTargets": [
+    {
+      "osBuild": "25F80",
+      "architecture": "arm64"
+    },
+    {
+      "osBuild": "25G72",
+      "architecture": "arm64"
+    },
+    {
+      "osBuild": "26A434",
+      "architecture": "arm64"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "macos-26",
+      "majorVersion": 26,
+      "minimumMinorVersion": 5,
+      "minimumPatchVersion": 1,
+      "osBuildPrefix": "25",
+      "architecture": "arm64"
+    },
+    {
+      "id": "macos-27",
+      "majorVersion": 27,
+      "minimumMinorVersion": 0,
+      "minimumPatchVersion": 0,
+      "osBuildPrefix": "26",
+      "architecture": "arm64"
+    }
+  ]
+}

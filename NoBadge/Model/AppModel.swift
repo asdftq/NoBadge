@@ -29,6 +29,7 @@ enum DisplayPhase: Equatable {
   let build: String
   let version: String
   let qualified: Bool
+  let compatibilityProfile: String?
   let engine: BadgeEngine
   private let reader = PlatformReader()
   private let catalog = ApplicationCatalog()
@@ -89,11 +90,11 @@ enum DisplayPhase: Equatable {
     let manifest = Bundle.main.url(forResource: "Compatibility", withExtension: "json").flatMap {
       try? Data(contentsOf: $0)
     }.flatMap { try? JSONDecoder().decode(CompatibilityManifest.self, from: $0) }
-    qualified =
-      manifest?.adapterID == "usernoted-badge-v1"
-      && manifest?.qualifiedTargets.contains(where: {
-        $0.osBuild == runningBuild && $0.architecture == currentArchitecture()
-      }) == true
+    let profile = manifest?.profile(
+      for: ProcessInfo.processInfo.operatingSystemVersion, osBuild: runningBuild,
+      architecture: currentArchitecture())
+    compatibilityProfile = profile?.id
+    qualified = profile != nil
     engine = BadgeEngine(
       store: FileNotificationStore(url: FileNotificationStore.currentURL),
       journals: FileJournalStore(
@@ -101,7 +102,9 @@ enum DisplayPhase: Equatable {
       refresher: UserNotificationRefresher(), version: version, osBuild: build,
       compatibleRecoveryBuilds: Set(
         manifest?.qualifiedTargets.filter { $0.architecture == currentArchitecture() }.map(
-          \.osBuild) ?? []))
+          \.osBuild) ?? []),
+      compatibleRecoveryBuildPrefixes: profile == nil ? [] :
+        manifest?.recoveryBuildPrefixes(architecture: currentArchitecture()) ?? [])
     if let data = try? Data(contentsOf: settingsURL) {
       do {
         settings = try JSONDecoder().decode(UserSettings.self, from: data)
@@ -129,7 +132,7 @@ enum DisplayPhase: Equatable {
     case .off: L("Automatic hiding is off")
     case .working: L("Updating badge settings…")
     case .access: L("Access needs attention")
-    case .unsupported: L("This macOS version needs an update")
+    case .unsupported: L("Update NoBadge for this macOS version")
     case .focusUnavailable: L("Focus needs attention")
     case .recovery: L("Some badge settings still need restoring")
     case .error: L("Automatic hiding is paused")
@@ -251,7 +254,7 @@ enum DisplayPhase: Equatable {
     if normalized != settings { settings = normalized }
     guard qualified else {
       phase = .unsupported
-      detail = "Automatic hiding stays off until this macOS build is qualified."
+      detail = "This macOS version or Mac architecture needs a compatible NoBadge update."
       stateChanged?()
       return
     }
@@ -711,7 +714,7 @@ enum DisplayPhase: Equatable {
     stateChanged?()
   }
   private var diagnosticSummary: String {
-    "NoBadge \(version)\nBundle: com.asdftq.nobadge\nOS build: \(build)\nAdapter: usernoted-badge-v1\nQualified: \(qualified)\nState: \(phase)\nOwned count: \(hiddenCount)\nAccess: \(hasAccess)\nNo Focus names, app list, notification data, or recovery journal included.\n"
+    "NoBadge \(version)\nBundle: com.asdftq.nobadge\nOS build: \(build)\nAdapter: usernoted-badge-v1\nProfile: \(compatibilityProfile ?? "unsupported")\nCompatible OS family: \(qualified)\nState: \(phase)\nOwned count: \(hiddenCount)\nAccess: \(hasAccess)\nNo Focus names, app list, notification data, or recovery journal included.\n"
   }
   func exportDiagnostics() {
     let panel = NSSavePanel()

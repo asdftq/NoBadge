@@ -18,6 +18,10 @@ The website version is a ready-to-install, signed and notarized download with in
 
 ## Before you run it
 
+**Compatibility:** Apple Silicon on macOS **26.5.1 or later in macOS 26, and macOS 27**. NoBadge selects the adapter for your OS family and checks the settings format before changing badges. Stable minor and patch updates within these families do not need a new build-number approval. macOS 28 and later, beta builds, Intel Macs and older macOS versions need a compatible release.
+
+Directly verified builds: macOS 26.5.1 (25F80), 26.6 (25G72) and 27.0.1 (26A434). A supported family is not a claim that every build has been tested. If Apple changes the settings format, NoBadge pauses changes and keeps recovery information.
+
 NoBadge requires **Full Disk Access** because it reads private macOS Focus settings and changes notification preferences. This is a broad permission. The app does not read messages or documents, and badge/Focus processing stays on your Mac. Some apps draw their own badges and may not respond.
 
 Quit any running NoBadge copy before using another build. Use **Restore & Quit** before removing or replacing it. If it is force-quit, reopen it to restore pending settings.

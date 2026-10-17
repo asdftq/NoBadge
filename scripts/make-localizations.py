@@ -7,6 +7,9 @@ for p in (root/'NoBadge').rglob('*.swift'):
 for p in (root/'Packages/NoBadgeCore/Sources/NoBadgeCore').glob('*.swift'):
  keys.update(re.findall(r'case [^\n]+: "([^"\n]+)"',p.read_text()))
 ko={
+'Update NoBadge for this macOS version':'이 macOS 버전에 맞게 NoBadge를 업데이트하세요',
+'This macOS version or Mac architecture needs a compatible NoBadge update.':'이 macOS 버전 또는 Mac 아키텍처를 지원하는 NoBadge 업데이트가 필요합니다.',
+'This macOS family is supported. Settings are checked before changes.':'지원하는 macOS 계열입니다. 변경 전에 설정 형식을 확인합니다.',
 'Cannot synchronize notification settings.':'알림 설정을 동기화할 수 없습니다.','Cannot persist notification settings.':'알림 설정을 저장할 수 없습니다.','Cannot prepare notification settings.':'알림 설정 변경을 준비할 수 없습니다.','Cannot identify the current user.':'현재 사용자를 확인할 수 없습니다.',
 'Edit':'편집','Undo':'실행 취소','Redo':'다시 실행','Cut':'잘라내기','Copy':'복사','Paste':'붙여넣기','Select All':'모두 선택','Window':'윈도우','Close':'닫기',
 'Open NoBadge':'NoBadge 열기',

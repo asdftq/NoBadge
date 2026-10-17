@@ -16,14 +16,15 @@ public actor BadgeEngine {
     private let verificationDelay: Duration
     private let refreshInterval: TimeInterval
     private let recoveryBuilds: Set<String>
+    private let recoveryBuildPrefixes: Set<String>
     private var lastRefresh: ContinuousClock.Instant?
     private var locked=false
     private var waiters: [CheckedContinuation<Void,Never>] = []
     private var failures: [ContinuousClock.Instant] = []
     private var restoreRequested=false
     private var intentRevision: UInt64 = 0
-    public init(store: any NotificationStore, journals: any JournalPersistence, refresher: any DaemonRefreshing, version: String, osBuild: String, verificationDelay: Duration = .milliseconds(500), refreshInterval: TimeInterval = 10, compatibleRecoveryBuilds: Set<String>? = nil) {
-        self.store=store;self.journals=journals;self.refresher=refresher;self.version=version;self.osBuild=osBuild;self.verificationDelay=verificationDelay;self.refreshInterval=refreshInterval;self.recoveryBuilds=compatibleRecoveryBuilds ?? [osBuild]
+    public init(store: any NotificationStore, journals: any JournalPersistence, refresher: any DaemonRefreshing, version: String, osBuild: String, verificationDelay: Duration = .milliseconds(500), refreshInterval: TimeInterval = 10, compatibleRecoveryBuilds: Set<String>? = nil, compatibleRecoveryBuildPrefixes: Set<String> = []) {
+        self.store=store;self.journals=journals;self.refresher=refresher;self.version=version;self.osBuild=osBuild;self.verificationDelay=verificationDelay;self.refreshInterval=refreshInterval;self.recoveryBuilds=compatibleRecoveryBuilds ?? [osBuild];self.recoveryBuildPrefixes=compatibleRecoveryBuildPrefixes
     }
     private func acquire() async { if !locked { locked=true;return };await withCheckedContinuation { waiters.append($0) } }
     private func release() { if waiters.isEmpty {locked=false} else {waiters.removeFirst().resume()} }
@@ -126,7 +127,12 @@ public actor BadgeEngine {
     private func restoreAttempt() async throws -> EngineResult {
         guard var session=try await journals.load() else {return .init(hiddenCount:0,wrote:false,hasSession:false)}
         try session.validateIdentity()
-        guard recoveryBuilds.contains(osBuild), recoveryBuilds.contains(session.osBuild) else { throw EngineError.unsupportedOS }
+        func compatible(_ build: String) -> Bool {
+            recoveryBuilds.contains(build) || recoveryBuildPrefixes.contains {
+                CompatibilityProfile.build(build, hasPrefix: $0)
+            }
+        }
+        guard compatible(osBuild), compatible(session.osBuild) else { throw EngineError.unsupportedOS }
         if session.ownedIDs.isEmpty {try await journals.clear();return .init(hiddenCount:0,wrote:false,hasSession:false)}
         let snapshot=try await store.read();var bits:[String:Bool]=[:]
         for id in session.ownedIDs {

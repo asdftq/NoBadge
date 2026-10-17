@@ -207,8 +207,8 @@ struct SettingsView: View {
           Text("macOS \(model.build) · NoBadge \(model.version)")
           Text(
             model.qualified
-              ? L("This build is qualified for the current adapter.")
-              : L("This build has not been qualified."))
+              ? L("This macOS family is supported. Settings are checked before changes.")
+              : L("This macOS version or Mac architecture needs a compatible NoBadge update."))
         }.font(.caption).padding(.top, 6)
       }
       Spacer(minLength: 0)
