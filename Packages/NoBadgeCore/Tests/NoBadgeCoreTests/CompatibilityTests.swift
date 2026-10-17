@@ -20,6 +20,7 @@ private func compatibilityManifest() throws -> CompatibilityManifest {
         (OperatingSystemVersion(majorVersion: 27, minorVersion: 1, patchVersion: 0), "26B100", "macos-27")
     ] {
         #expect(manifest.profile(for: version, osBuild: build, architecture: "arm64")?.id == profile)
+        #expect(manifest.profile(for: version, osBuild: build, architecture: "arm64")?.supportsSystemSettingsBadges == (version.majorVersion == 27))
     }
     let current = OperatingSystemVersion(majorVersion: 27, minorVersion: 0, patchVersion: 1)
     #expect(manifest.profile(for: current, osBuild: "26A434", architecture: "x86_64") == nil)

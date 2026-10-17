@@ -7,6 +7,10 @@ for p in (root/'NoBadge').rglob('*.swift'):
 for p in (root/'Packages/NoBadgeCore/Sources/NoBadgeCore').glob('*.swift'):
  keys.update(re.findall(r'case [^\n]+: "([^"\n]+)"',p.read_text()))
 ko={
+'Only supported apps are listed. Some custom app-drawn badges may remain.':'지원하는 앱만 표시됩니다. 앱이 직접 그리는 일부 배지는 남아 있을 수 있습니다.',
+'System Settings Dock badges are supported on this Mac.':'이 Mac에서는 시스템 설정의 Dock 배지를 지원합니다.',
+'System Settings Dock badges are not supported on this macOS version.':'이 macOS 버전에서는 시스템 설정의 Dock 배지를 지원하지 않습니다.',
+
 'Update NoBadge for this macOS version':'이 macOS 버전에 맞게 NoBadge를 업데이트하세요',
 'This macOS version or Mac architecture needs a compatible NoBadge update.':'이 macOS 버전 또는 Mac 아키텍처를 지원하는 NoBadge 업데이트가 필요합니다.',
 'This macOS family is supported. Settings are checked before changes.':'지원하는 macOS 계열입니다. 변경 전에 설정 형식을 확인합니다.',

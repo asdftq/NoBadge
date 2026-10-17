@@ -12,6 +12,7 @@ The website version is a ready-to-install, signed and notarized download with in
 
 - Follow any Focus, or only the modes you choose.
 - Hide supported badges in the Dock and app switcher.
+- Hide the separate System Settings Dock badge on macOS 27, with the same exceptions and restoration.
 - Keep badges visible for individual apps.
 - Show badges for 15 minutes without switching Focus off.
 - Restore the badge settings NoBadge changed when Focus ends.
@@ -25,6 +26,16 @@ Directly verified builds: macOS 26.5.1 (25F80), 26.6 (25G72) and 27.0.1 (26A434)
 NoBadge requires **Full Disk Access** because it reads private macOS Focus settings and changes notification preferences. This is a broad permission. The app does not read messages or documents, and badge/Focus processing stays on your Mac. Some apps draw their own badges and may not respond.
 
 Quit any running NoBadge copy before using another build. Use **Restore & Quit** before removing or replacing it. If it is force-quit, reopen it to restore pending settings.
+
+## Badge support
+
+| Badge path | macOS 26.5.1+ within 26 | macOS 27 |
+| --- | --- | --- |
+| Registered notification badges | Supported | Supported |
+| System Settings Dock attention badge | Not supported | Supported since 0.1.40 |
+| Other custom app-drawn badges | Not guaranteed | Not guaranteed |
+
+System Settings uses a separate, journaled adapter. It follows Focus, Show badges, app exceptions and safe exit/update restoration. It preserves current external attention entries; it does not resolve the underlying system requests or hide notices inside System Settings. Supported adapters are declared per OS family. Unknown settings formats pause changes rather than reporting a successful hide.
 
 ## Build from source
 

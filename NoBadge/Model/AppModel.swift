@@ -30,7 +30,10 @@ enum DisplayPhase: Equatable {
   let version: String
   let qualified: Bool
   let compatibilityProfile: String?
+  let systemSettingsSupported: Bool
   let engine: BadgeEngine
+  let systemBadges: SystemSettingsBadges?
+  private var lastSystemBadgeSignature: String?
   private let reader = PlatformReader()
   private let catalog = ApplicationCatalog()
   private var catalogIDs: Set<String> = []
@@ -66,7 +69,9 @@ enum DisplayPhase: Equatable {
   var languageChanged: (() -> Void)?
   @Published var updatesConfigured = false
   @Published var showReviewInvitation = false
-  lazy var observer = ChangeObserver { [weak self] in self?.requestRefresh() }
+  lazy var observer = ChangeObserver(systemBadges: systemSettingsSupported) {
+    [weak self] in self?.requestRefresh()
+  }
   lazy var reviews = ReviewRequestCoordinator(folder: folder, labOnly: labOnly)
   func openFeedback() {
     showReviewInvitation = false
@@ -94,6 +99,7 @@ enum DisplayPhase: Equatable {
       for: ProcessInfo.processInfo.operatingSystemVersion, osBuild: runningBuild,
       architecture: currentArchitecture())
     compatibilityProfile = profile?.id
+    systemSettingsSupported = profile?.supportsSystemSettingsBadges == true
     qualified = profile != nil
     engine = BadgeEngine(
       store: FileNotificationStore(url: FileNotificationStore.currentURL),
@@ -105,6 +111,11 @@ enum DisplayPhase: Equatable {
           \.osBuild) ?? []),
       compatibleRecoveryBuildPrefixes: profile == nil ? [] :
         manifest?.recoveryBuildPrefixes(architecture: currentArchitecture()) ?? [])
+    let hasSystemRecovery = FileManager.default.fileExists(
+      atPath: folder.appendingPathComponent("recovery/system-settings.json").path)
+    systemBadges = profile != nil && !labOnly && (systemSettingsSupported || hasSystemRecovery) ? SystemSettingsBadges(
+      journal: folder.appendingPathComponent("recovery/system-settings.json"),
+      canSuppress: systemSettingsSupported) : nil
     if let data = try? Data(contentsOf: settingsURL) {
       do {
         settings = try JSONDecoder().decode(UserSettings.self, from: data)
@@ -221,7 +232,7 @@ enum DisplayPhase: Equatable {
   private func refresh(force: Bool) async {
     guard await finishSavingSettings() else {
       do {
-        _ = try await engine.restore()
+        _ = try await restoreAllBadges()
         hiddenCount = 0
         phase = .error
       } catch {
@@ -236,7 +247,7 @@ enum DisplayPhase: Equatable {
     guard license.canUse else {
       do {
         // Recovery and quitting always remain available without a valid license.
-        _ = try await engine.restore()
+        _ = try await restoreAllBadges()
         hiddenCount = 0
         phase = .license
         detail = ""
@@ -267,13 +278,23 @@ enum DisplayPhase: Equatable {
       if focus != current.focus { focus = current.focus }
       let known = current.focus.activeIDs != nil
       if focusAvailable != known { focusAvailable = known }
+      let systemSignature = try await systemBadges?.signature()
       let records =
         labOnly
         ? current.notifications.records.filter { $0.id.hasPrefix("com.asdftq.nobadge.fixture.") }
         : current.notifications.records
       let identities = Set(records.map { $0.id + "|" + ($0.path ?? "") })
       if identities != catalogIDs {
-        let resolved = await catalog.load(records)
+        var resolved = await catalog.load(records)
+        if systemSettingsSupported, !labOnly {
+          let url = URL(fileURLWithPath: "/System/Applications/System Settings.app")
+          if let bundle = Bundle(url: url), !resolved.contains(where: { $0.id == SystemSettingsBadges.bundleID }) {
+            resolved.append(AppEntry(id: SystemSettingsBadges.bundleID,
+              name: bundle.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "System Settings",
+              url: url, recordIDs: [SystemSettingsBadges.bundleID]))
+            resolved.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+          }
+        }
         guard !stopped else { return }
         if applications != resolved { applications = resolved }
         catalogIDs = identities
@@ -281,12 +302,12 @@ enum DisplayPhase: Equatable {
       inputs = current
       if !startupRecoveryChecked {
         startupRecoveryChecked = true
-        if try await engine.pendingRecovery() {
+        if try await pendingBadgeRecovery() {
           restorationRequired = true
           phase = .working
           isBusy = true
           stateChanged?()
-          _ = try await engine.restore()
+          _ = try await restoreAllBadges()
           restorationRequired = false
           isBusy = false
         }
@@ -315,7 +336,7 @@ enum DisplayPhase: Equatable {
         stateChanged?()
         return
       }
-      guard force || current.signature != lastSignature else {
+      guard force || current.signature != lastSignature || systemSignature != lastSystemBadgeSignature else {
         updateVisiblePhase()
         stateChanged?()
         return
@@ -332,7 +353,7 @@ enum DisplayPhase: Equatable {
           }
         }
         if unknownSince!.duration(to: .now) < .seconds(2) { return }
-        _ = try await engine.restore()
+        _ = try await restoreAllBadges()
         hiddenCount = 0
         phase = .focusUnavailable
         detail = "NoBadge cannot read Focus right now. Manual hiding is still available."
@@ -353,12 +374,15 @@ enum DisplayPhase: Equatable {
       let result = try await engine.reconcile(
         hidden: desired == .hidden, exceptions: expandedExceptions, eligibleIDs: eligible,
         qualified: qualified)
-      hiddenCount = result.hiddenCount
+      let systemCount = try await systemBadges?.reconcile(
+        hidden: desired == .hidden, excepted: expandedExceptions.contains(SystemSettingsBadges.bundleID)) ?? 0
+      hiddenCount = result.hiddenCount + systemCount
       isBusy = false
       // Cache the post-write state to avoid treating our own directory event as a new transaction.
       let confirmed = try await reader.load()
       inputs = confirmed
       lastSignature = confirmed.signature
+      lastSystemBadgeSignature = try await systemBadges?.signature()
       updateVisiblePhase(desired: desired)
       detail = ""
       reviews.reconciled(
@@ -389,7 +413,7 @@ enum DisplayPhase: Equatable {
         safetySuspended = true
         // One bounded recovery attempt; never loop on a refresh failure.
         do {
-          _ = try await engine.restore()
+          _ = try await restoreAllBadges()
           restorationRequired = false
           hiddenCount = 0
           phase = .error
@@ -397,6 +421,21 @@ enum DisplayPhase: Equatable {
       }
       stateChanged?()
     }
+  }
+  private func restoreAllBadges() async throws -> EngineResult {
+    // Each independent adapter must get a recovery attempt even when another
+    // path fails; keep the first failure and its journal visible to the user.
+    let regular: Result<EngineResult, Error>
+    do { regular = .success(try await engine.restore()) }
+    catch { regular = .failure(error) }
+    do { try await systemBadges?.restore() }
+    catch { _ = try regular.get(); throw error }
+    return try regular.get()
+  }
+  private func pendingBadgeRecovery() async throws -> Bool {
+    let regular = try await engine.pendingRecovery()
+    let system = await systemBadges?.pendingRecovery() ?? false
+    return regular || system
   }
   private func updateVisiblePhase(desired: DesiredState? = nil) {
     if restorationRequired {
@@ -587,7 +626,7 @@ enum DisplayPhase: Equatable {
       phase = .working
       stateChanged?()
       do {
-        _ = try await engine.restore()
+        _ = try await restoreAllBadges()
         restorationRequired = false
         hiddenCount = 0
         safetySuspended = false
@@ -619,7 +658,7 @@ enum DisplayPhase: Equatable {
     phase = .working
     stateChanged?()
     do {
-      _ = try await engine.restore()
+      _ = try await restoreAllBadges()
       restorationRequired = false
       hiddenCount = 0
       isBusy = false
@@ -656,7 +695,7 @@ enum DisplayPhase: Equatable {
           stateChanged?()
           return
         }
-        _ = try await engine.restore()
+        _ = try await restoreAllBadges()
         restorationRequired = false
         hiddenCount = 0
         if [.enabled, .requiresApproval].contains(SMAppService.mainApp.status) {

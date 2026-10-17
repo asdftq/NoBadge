@@ -21,7 +21,10 @@
       "minimumMinorVersion": 5,
       "minimumPatchVersion": 1,
       "osBuildPrefix": "25",
-      "architecture": "arm64"
+      "architecture": "arm64",
+      "badgeAdapters": [
+        "usernoted-badge-v1"
+      ]
     },
     {
       "id": "macos-27",
@@ -29,7 +32,11 @@
       "minimumMinorVersion": 0,
       "minimumPatchVersion": 0,
       "osBuildPrefix": "26",
-      "architecture": "arm64"
+      "architecture": "arm64",
+      "badgeAdapters": [
+        "usernoted-badge-v1",
+        "system-settings-attention-v1"
+      ]
     }
   ]
 }

@@ -172,7 +172,7 @@ struct SettingsView: View {
           keptIDs: Set(model.applications.filter(model.isException).map(\.id)),
           changed: { model.setException($0, $1) })
       }
-      Text(L("Apps with their own badge system may not respond to macOS badge settings."))
+      Text(L("Only supported apps are listed. Some custom app-drawn badges may remain."))
         .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
     }
   }
@@ -205,6 +205,9 @@ struct SettingsView: View {
       DisclosureGroup(L("Compatibility details")) {
         VStack(alignment: .leading, spacing: 4) {
           Text("macOS \(model.build) · NoBadge \(model.version)")
+          Text(model.systemSettingsSupported
+            ? L("System Settings Dock badges are supported on this Mac.")
+            : L("System Settings Dock badges are not supported on this macOS version."))
           Text(
             model.qualified
               ? L("This macOS family is supported. Settings are checked before changes.")

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.40
+
+- Hide the separate System Settings Dock badge on macOS 27 during Focus, with app exceptions and durable recovery.
+- Restore system badge counts on Show badges, Focus off, quit, uninstall and updates; preserve newly changed system attention entries.
+- Preserve the macOS 26 notification adapter and make the supported badge paths explicit.
+
 ## 0.1.39
 
 - Support Apple Silicon on macOS 27, preserving the macOS 26.5.1 and later adapter.

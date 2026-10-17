@@ -1793,6 +1793,22 @@
         }
       }
     },
+    "Only supported apps are listed. Some custom app-drawn badges may remain.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only supported apps are listed. Some custom app-drawn badges may remain."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지원하는 앱만 표시됩니다. 앱이 직접 그리는 일부 배지는 남아 있을 수 있습니다."
+          }
+        }
+      }
+    },
     "Open My Orders": {
       "localizations": {
         "en": {
@@ -2621,6 +2637,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "지원"
+          }
+        }
+      }
+    },
+    "System Settings Dock badges are not supported on this macOS version.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Settings Dock badges are not supported on this macOS version."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 macOS 버전에서는 시스템 설정의 Dock 배지를 지원하지 않습니다."
+          }
+        }
+      }
+    },
+    "System Settings Dock badges are supported on this Mac.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Settings Dock badges are supported on this Mac."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 Mac에서는 시스템 설정의 Dock 배지를 지원합니다."
           }
         }
       }

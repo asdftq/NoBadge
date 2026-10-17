@@ -72,10 +72,21 @@ func currentOSBuild() -> String {
   private var sources: [DispatchSourceFileSystemObject] = []
   private var timer: Timer?
   private var debounce: Task<Void, Never>?
+  private var systemBadgeToken: NSObjectProtocol?
+  private let systemBadges: Bool
   private let changed: @MainActor () -> Void
-  init(changed: @escaping @MainActor () -> Void) { self.changed = changed }
+  init(systemBadges: Bool = false, changed: @escaping @MainActor () -> Void) {
+    self.systemBadges = systemBadges
+    self.changed = changed
+  }
   func start() {
     stop()
+    if systemBadges {
+      systemBadgeToken = DistributedNotificationCenter.default().addObserver(
+        forName: Notification.Name("com.apple.systempreferences.refreshdocktile"),
+        object: nil, queue: .main
+      ) { [weak self] _ in Task { @MainActor in self?.schedule() } }
+    }
     let home = FileManager.default.homeDirectoryForCurrentUser
     let folders = [
       home.appendingPathComponent("Library/DoNotDisturb/DB"),
@@ -105,6 +116,8 @@ func currentOSBuild() -> String {
     }
   }
   func stop() {
+    if let systemBadgeToken { DistributedNotificationCenter.default().removeObserver(systemBadgeToken) }
+    systemBadgeToken = nil
     debounce?.cancel()
     debounce = nil
     sources.forEach { $0.cancel() }

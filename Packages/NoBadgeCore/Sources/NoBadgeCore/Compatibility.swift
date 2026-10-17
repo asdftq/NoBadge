@@ -12,6 +12,10 @@ public struct CompatibilityManifest: Decodable, Sendable {
         guard adapterID == "usernoted-badge-v1" else { return nil }
         let matches = profiles.filter {
             $0.architecture == architecture && $0.supports(version) && $0.supportsBuild(osBuild)
+            && ($0.badgeAdapters.map {
+                $0.contains("usernoted-badge-v1") &&
+                $0.isSubset(of: ["usernoted-badge-v1", "system-settings-attention-v1"])
+            } ?? true)
         }
         return matches.count == 1 ? matches[0] : nil
     }
@@ -34,6 +38,10 @@ public struct CompatibilityProfile: Decodable, Sendable {
     public let minimumPatchVersion: Int
     public let osBuildPrefix: String
     public let architecture: String
+    public let badgeAdapters: Set<String>?
+    public var supportsSystemSettingsBadges: Bool {
+        badgeAdapters?.contains("system-settings-attention-v1") == true
+    }
 
     func supports(_ version: OperatingSystemVersion) -> Bool {
         version.majorVersion == majorVersion &&
