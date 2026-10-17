@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.41
+
+- Target the actual non-container System Settings Dock preferences instead of an identically named sandbox domain.
+- Recover 0.1.40 changes in their original source before starting the corrected journal, which records its storage path.
+
 ## 0.1.40
 
 - Hide the separate System Settings Dock badge on macOS 27 during Focus, with app exceptions and durable recovery.

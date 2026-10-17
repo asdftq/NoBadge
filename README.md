@@ -32,10 +32,10 @@ Quit any running NoBadge copy before using another build. Use **Restore & Quit**
 | Badge path | macOS 26.5.1+ within 26 | macOS 27 |
 | --- | --- | --- |
 | Registered notification badges | Supported | Supported |
-| System Settings Dock attention badge | Not supported | Supported since 0.1.40 |
+| System Settings Dock attention badge | Not supported | Supported since 0.1.41 |
 | Other custom app-drawn badges | Not guaranteed | Not guaranteed |
 
-System Settings uses a separate, journaled adapter. It follows Focus, Show badges, app exceptions and safe exit/update restoration. It preserves current external attention entries; it does not resolve the underlying system requests or hide notices inside System Settings. Supported adapters are declared per OS family. Unknown settings formats pause changes rather than reporting a successful hide.
+System Settings uses a separate, journaled adapter. Version 0.1.41 fixes a storage-selection bug in 0.1.40 that could leave its Dock badge visible. It follows Focus, Show badges, app exceptions and safe exit/update restoration. It preserves current external attention entries; it does not resolve the underlying system requests or hide notices inside System Settings. Supported adapters are declared per OS family. Unknown settings formats pause changes rather than reporting a successful hide.
 
 ## Build from source
 
