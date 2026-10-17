@@ -18,15 +18,13 @@ The website version is a ready-to-install, signed and notarized download with in
 
 ## Before you run it
 
-Automatic badge changes are currently enabled only on **Apple Silicon with macOS 26.5.1 (25F80) or 26.6 (25G72)**. Other OS builds and Intel Macs stay unsupported, even if the code compiles there.
-
 NoBadge requires **Full Disk Access** because it reads private macOS Focus settings and changes notification preferences. This is a broad permission. The app does not read messages or documents, and badge/Focus processing stays on your Mac. Some apps draw their own badges and may not respond.
 
-Quit any running NoBadge copy before using another build. Use **Restore & Quit** before removing or replacing it. If it is force-quit, reopen it to restore pending settings. Do not remove the compatibility checks to use an unqualified OS build.
+Quit any running NoBadge copy before using another build. Use **Restore & Quit** before removing or replacing it. If it is force-quit, reopen it to restore pending settings.
 
 ## Build from source
 
-You need a Mac with the full Xcode installation and Python 3. The source build was checked with Xcode 26.6 / Swift 6.3.3.
+You need a Mac with a current Xcode installation and Python 3.
 
 ```sh
 git clone https://github.com/asdftq/NoBadge.git
@@ -56,6 +54,6 @@ Tests use temporary fixtures. Do not experiment with writes to your real notific
 
 ## License and credits
 
-[MIT](LICENSE), copyright 2026 Derrick Cho. You can build, modify and redistribute the source under that license.
+[MIT](LICENSE)
 
 Inspired by [FocusNoBadges](https://github.com/FuzzDOT/FocusNoBadges) and [FocusPlsNoBadges](https://github.com/aydenp/FocusPlsNoBadges). No upstream source or artwork was imported. Sparkle retains its own license; see [third-party notices](Docs/third-party-notices.md).
