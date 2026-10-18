@@ -61,6 +61,11 @@ public enum FocusObservation: Equatable, Sendable {
 
 public enum DesiredState: Equatable, Sendable { case visible, hidden, unknown }
 public enum PolicyReducer {
+    /// A post-write snapshot can contain a newer Focus state than the transaction
+    /// actually applied. An unchanged snapshot alone cannot acknowledge that intent.
+    public static func needsReconciliation(desired: DesiredState, applied: DesiredState?, inputsChanged: Bool) -> Bool {
+        inputsChanged || desired != applied
+    }
     public static func desired(settings: UserSettings, focus: FocusObservation, now: Date, capable: Bool, recoveryPending: Bool) -> DesiredState {
         guard capable, !recoveryPending else { return .visible }
         if let deadline = settings.pauseUntil, deadline > now { return .visible }

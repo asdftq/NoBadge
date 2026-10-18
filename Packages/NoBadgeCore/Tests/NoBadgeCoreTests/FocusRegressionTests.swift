@@ -104,3 +104,42 @@ private func assertion(_ id: String, _ start: Any) -> [String: Any] {
   #expect(await store.value.flags(for: "a") == 7)
   _ = try await engine.restore()
 }
+
+@Test func focusOffDuringSuppressionReadbackStillRestoresWithoutManualRecovery() async throws {
+  let store = MemoryStore(try fixture([["bundle-id": "a", "flags": 7]]))
+  let journal = MemoryJournal()
+  let engine = BadgeEngine(
+    store: store, journals: journal, refresher: MemoryRefresh(), version: "test",
+    osBuild: "25F80", verificationDelay: .zero, refreshInterval: 0)
+  var settings = UserSettings()
+  settings.onboardingComplete = true
+  settings.setupRevision = UserSettings.currentSetupRevision
+  settings.automationEnabled = true
+  let on = FocusObservation.known(activeIDs: ["work"], modes: [])
+  let off = FocusObservation.known(activeIDs: [], modes: [])
+  func desired(_ focus: FocusObservation) -> DesiredState {
+    PolicyReducer.desired(settings: settings, focus: focus, now: .now,
+                          capable: true, recoveryPending: false)
+  }
+
+  // Focus turns off while suppression is awaiting its write/readback. The app
+  // caches that newer snapshot, but the transaction only applied the older intent.
+  let applied = desired(on)
+  _ = try await engine.reconcile(hidden: applied == .hidden, qualified: true)
+  let cachedReadback = desired(off)
+  if PolicyReducer.needsReconciliation(
+    desired: cachedReadback, applied: applied, inputsChanged: false) {
+    _ = try await engine.reconcile(hidden: cachedReadback == .hidden, qualified: true)
+  }
+  #expect(await store.value.flags(for: "a") == 7)
+  #expect(try await engine.pendingRecovery() == false)
+  #expect(settings.automationEnabled)
+  #expect(settings.pauseUntil == nil)
+
+  // The next Focus still hides; a completed unchanged intent remains a no-op.
+  #expect(PolicyReducer.needsReconciliation(
+    desired: desired(on), applied: cachedReadback, inputsChanged: false))
+  #expect(!PolicyReducer.needsReconciliation(
+    desired: cachedReadback, applied: cachedReadback, inputsChanged: false))
+  _ = try await engine.restore()
+}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.42
+
+- Restore supported badges when Focus ends during an in-flight badge update; keep automatic Focus syncing enabled.
+- Reconcile a changed Focus immediately instead of treating an unprocessed readback as completed work.
+- Resume automatic rules when the 15-minute manual recovery pause ends.
+
 ## 0.1.41
 
 - Target the actual non-container System Settings Dock preferences instead of an identically named sandbox domain.

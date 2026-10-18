@@ -44,6 +44,7 @@ enum DisplayPhase: Equatable {
   private var settingsRevision: UInt64 = 0
   private var inputs: PlatformInputs?
   private var lastSignature: String?
+  private var lastAppliedDesired: DesiredState?
   private var processing = false
   private var refreshTask: Task<Void, Never>?
   private var interruptionTask: Task<Void, Never>?
@@ -336,14 +337,17 @@ enum DisplayPhase: Equatable {
         stateChanged?()
         return
       }
-      guard force || current.signature != lastSignature || systemSignature != lastSystemBadgeSignature else {
+      let desired = PolicyReducer.desired(
+        settings: settings, focus: current.focus, now: .now, capable: qualified,
+        recoveryPending: false)
+      guard force || PolicyReducer.needsReconciliation(
+        desired: desired, applied: lastAppliedDesired,
+        inputsChanged: current.signature != lastSignature || systemSignature != lastSystemBadgeSignature
+      ) else {
         updateVisiblePhase()
         stateChanged?()
         return
       }
-      let desired = PolicyReducer.desired(
-        settings: settings, focus: current.focus, now: .now, capable: qualified,
-        recoveryPending: false)
       if desired == .unknown {
         if unknownSince == nil {
           unknownSince = .now
@@ -378,11 +382,17 @@ enum DisplayPhase: Equatable {
         hidden: desired == .hidden, excepted: expandedExceptions.contains(SystemSettingsBadges.bundleID)) ?? 0
       hiddenCount = result.hiddenCount + systemCount
       isBusy = false
-      // Cache the post-write state to avoid treating our own directory event as a new transaction.
+      // Cache our notification writes, but only acknowledge the Focus intent we
+      // actually applied. Focus can change while either badge adapter is awaited.
       let confirmed = try await reader.load()
       inputs = confirmed
-      lastSignature = confirmed.signature
+      lastSignature = PlatformInputs(focus: current.focus, notifications: confirmed.notifications).signature
+      lastAppliedDesired = desired
       lastSystemBadgeSignature = try await systemBadges?.signature()
+      if confirmed.focus != current.focus {
+        requested = true
+        return
+      }
       updateVisiblePhase(desired: desired)
       detail = ""
       reviews.reconciled(
@@ -621,6 +631,7 @@ enum DisplayPhase: Equatable {
     settings.manualHideUntil = nil
     settings.pauseUntil = Date().addingTimeInterval(900)
     save()
+    scheduleDeadline()
     Task {
       isBusy = true
       phase = .working

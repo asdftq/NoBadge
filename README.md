@@ -17,6 +17,8 @@ The website version is a ready-to-install, signed and notarized download with in
 - Show badges for 15 minutes without switching Focus off.
 - Restore the badge settings NoBadge changed when Focus ends.
 
+Version **0.1.42** fixes a Focus-transition race that could leave badges hidden after Focus ended. Keep **Hide automatically during Focus** enabled and choose **Any Focus** for normal on/off syncing. No manual restore is needed when Focus ends. **Restore previous settings** temporarily shows badges for 15 minutes; **Resume now** ends that pause early.
+
 ## Before you run it
 
 **Compatibility:** Apple Silicon on macOS **26.5.1 or later in macOS 26, and macOS 27**. NoBadge selects the adapter for your OS family and checks the settings format before changing badges. Stable minor and patch updates within these families do not need a new build-number approval. macOS 28 and later, beta builds, Intel Macs and older macOS versions need a compatible release.
