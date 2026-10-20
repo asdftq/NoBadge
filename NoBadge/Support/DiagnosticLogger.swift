@@ -9,7 +9,7 @@ actor DiagnosticLogger {
     self.version = version
     self.build = build
   }
-  func record(state: String, count: Int, failure: String = "") {
+  func record(state: String, count: Int, failure: String = "", statusSymbol: String = "") {
     guard count >= 0, state.count < 32 else { return }
     do {
       try FileManager.default.createDirectory(
@@ -23,6 +23,7 @@ actor DiagnosticLogger {
         "time": ISO8601DateFormatter().string(from: .now), "version": version, "osBuild": build,
         "state": state, "ownedCount": count,
       ]
+      if !statusSymbol.isEmpty { event["statusSymbol"] = statusSymbol }
       if !failure.isEmpty { event["failure"] = String(failure.prefix(256)) }
       var data = try JSONSerialization.data(withJSONObject: event, options: [.sortedKeys])
       data.append(0x0A)

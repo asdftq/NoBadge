@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.45
+
+- Stop the menu bar checkmark flickering during repeated checks after Do Not Disturb changes.
+- Keep the last settled icon during background work and replace the image only when its symbol changes. Attention states still appear immediately.
+- Preserve the 1-second default, configurable Focus sync intervals and existing badge recovery behavior.
+
 ## 0.1.44
 
 - Check Focus every second by default, including upgrades from earlier releases.

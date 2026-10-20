@@ -19,6 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
   private let lifecycle = LifecycleCoordinator()
   private lazy var uiProbe = UIResponsivenessProbe(folder: model.folder)
   private var lastLoggedState = ""
+  private var menuBarIcon = MenuBarIcon()
   private lazy var logger = DiagnosticLogger(
     root: model.folder, version: model.version, build: model.build)
 
@@ -180,24 +181,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
       model.reviews.failed()
     }
     considerReview()
-    let signature = String(describing: model.phase) + "/" + String(model.hiddenCount) + "/" + model.failureDiagnostic
+    let iconChanged = menuBarIcon.update(phase: model.phase)
+    if iconChanged || item?.button?.image == nil {
+      let image = NSImage(systemSymbolName: menuBarIcon.symbol, accessibilityDescription: nil)
+      image?.isTemplate = true
+      item?.button?.image = image
+    }
+    let signature = String(describing: model.phase) + "/" + String(model.hiddenCount) + "/" + model.failureDiagnostic + "/" + menuBarIcon.symbol
     if signature != lastLoggedState {
       lastLoggedState = signature
       let state = String(describing: model.phase), count = model.hiddenCount, failure = model.failureDiagnostic
-      Task { await logger.record(state: state, count: count, failure: failure) }
+      let symbol = menuBarIcon.symbol
+      Task { await logger.record(state: state, count: count, failure: failure, statusSymbol: symbol) }
     }
-    let symbol: String
-    switch model.phase {
-    case .hidden: symbol = "app.badge.checkmark"
-    case .paused, .off: symbol = "pause.circle"
-    case .access, .error, .recovery, .unsupported, .focusUnavailable:
-      symbol = "exclamationmark.circle"
-    default: symbol = "app"
-    }
-    let image = NSImage(
-      systemSymbolName: symbol, accessibilityDescription: "NoBadge — " + model.title)
-    image?.isTemplate = true
-    item?.button?.image = image
     item?.button?.toolTip = "NoBadge — " + model.title
     item?.button?.setAccessibilityLabel("NoBadge — " + model.title)
   }

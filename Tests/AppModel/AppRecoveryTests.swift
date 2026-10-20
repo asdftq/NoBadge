@@ -3,6 +3,55 @@ import NoBadgeCore
 import Testing
 
 @Suite @MainActor struct AppRecoveryTests {
+    @Test func menuBarIconStaysSettledDuringFocusRechecks() async throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let store = try AppRecoveryStore()
+        let reader = PlatformReader(store: store)
+        let consumer = AppBadgeConsumer(store: store)
+        let engine = BadgeEngine(store: store,
+            journals: FileJournalStore(url: folder.appendingPathComponent("active-session.json")),
+            refresher: consumer, version: "test", osBuild: "26A434",
+            verificationDelay: .zero, refreshInterval: 0)
+        let model = AppModel(engine: engine, reader: reader, folder: folder)
+        var icon = MenuBarIcon()
+        var changes = [icon.symbol]
+        var workingIcons: [String] = []
+        model.stateChanged = {
+            if icon.update(phase: model.phase) { changes.append(icon.symbol) }
+            if model.phase == .working { workingIcons.append(icon.symbol) }
+        }
+        await reader.setFocus(false)
+        model.requestRefresh()
+        await model.waitForRefresh()
+        await reader.setFocus(true)
+        model.requestRefresh()
+        await model.waitForRefresh()
+        #expect(model.phase == .hidden)
+        #expect(await consumer.badge == false)
+        workingIcons.removeAll()
+        // Reproduce the post-write event burst, including an event queued mid-refresh.
+        model.requestRefresh(force: true)
+        model.requestRefresh(force: true)
+        await model.waitForRefresh()
+        #expect(!workingIcons.isEmpty)
+        #expect(workingIcons.allSatisfy { $0 == "app.badge.checkmark" })
+        await reader.setFocus(false)
+        model.requestRefresh()
+        await model.waitForRefresh()
+        model.requestRefresh(force: true)
+        await model.waitForRefresh()
+        #expect(model.phase == .ready)
+        #expect(await consumer.badge)
+        #expect(changes == ["app", "app.badge.checkmark", "app"])
+        #expect(model.settings.focusSyncInterval == .oneSecond)
+        // Attention states must still replace the settled icon immediately.
+        icon.update(phase: .recovery)
+        icon.update(phase: .working)
+        #expect(icon.symbol == "exclamationmark.circle")
+        #expect(await model.prepareToQuit())
+    }
+
     @Test(arguments: [false, true])
     func focusOffRecoversAutomaticallyAfterTemporaryFailure(refreshFailure: Bool) async throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
