@@ -2705,18 +2705,18 @@
         }
       }
     },
-    "The export contains only version, compatibility, state, and counts. It does not include Focus names, app lists, message data, or recovery journals.": {
+    "The export contains only version, compatibility, state, counts, and failure stages. It does not include Focus names, app lists, message data, or recovery journals.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The export contains only version, compatibility, state, and counts. It does not include Focus names, app lists, message data, or recovery journals."
+            "value": "The export contains only version, compatibility, state, counts, and failure stages. It does not include Focus names, app lists, message data, or recovery journals."
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "버전, 호환성, 상태와 개수만 저장됩니다. 집중 모드 이름, 앱 목록, 메시지 데이터와 복원 기록은 포함하지 않습니다."
+            "value": "버전, 호환성, 상태, 개수와 오류 발생 단계만 저장됩니다. 집중 모드 이름, 앱 목록, 메시지 데이터와 복원 기록은 포함하지 않습니다."
           }
         }
       }

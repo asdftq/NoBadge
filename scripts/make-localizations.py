@@ -17,7 +17,7 @@ ko={
 'Cannot synchronize notification settings.':'알림 설정을 동기화할 수 없습니다.','Cannot persist notification settings.':'알림 설정을 저장할 수 없습니다.','Cannot prepare notification settings.':'알림 설정 변경을 준비할 수 없습니다.','Cannot identify the current user.':'현재 사용자를 확인할 수 없습니다.',
 'Edit':'편집','Undo':'실행 취소','Redo':'다시 실행','Cut':'잘라내기','Copy':'복사','Paste':'붙여넣기','Select All':'모두 선택','Window':'윈도우','Close':'닫기',
 'Open NoBadge':'NoBadge 열기',
-'Review diagnostics':'진단 정보 확인','Save…':'저장…','Cancel':'취소','The export contains only version, compatibility, state, and counts. It does not include Focus names, app lists, message data, or recovery journals.':'버전, 호환성, 상태와 개수만 저장됩니다. 집중 모드 이름, 앱 목록, 메시지 데이터와 복원 기록은 포함하지 않습니다.',
+'Review diagnostics':'진단 정보 확인','Save…':'저장…','Cancel':'취소','The export contains only version, compatibility, state, counts, and failure stages. It does not include Focus names, app lists, message data, or recovery journals.':'버전, 호환성, 상태, 개수와 오류 발생 단계만 저장됩니다. 집중 모드 이름, 앱 목록, 메시지 데이터와 복원 기록은 포함하지 않습니다.',
 'Check for updates automatically':'업데이트 자동 확인','Updates are temporarily unavailable.':'지금은 업데이트를 확인할 수 없습니다.','Updates are not available for this preview yet. This version will keep working offline.':'이 미리보기 버전의 업데이트는 아직 제공되지 않습니다. 현재 버전은 오프라인에서도 사용할 수 있어요.','Restore previous badge settings before installing the update.':'업데이트를 설치하기 전에 이전 배지 설정을 복원하세요.',
 'NoBadge cannot read Focus yet. Turn on a Focus once, then check access again.':'아직 집중 모드를 읽을 수 없습니다. 집중 모드를 한 번 켠 뒤 접근 권한을 다시 확인하세요.',
 'NoBadge':'NoBadge','OK':'확인','Settings':'설정','NoBadge Settings':'NoBadge 설정',

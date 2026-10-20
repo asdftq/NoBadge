@@ -180,10 +180,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
       model.reviews.failed()
     }
     considerReview()
-    let signature = String(describing: model.phase) + "/" + String(model.hiddenCount)
+    let signature = String(describing: model.phase) + "/" + String(model.hiddenCount) + "/" + model.failureDiagnostic
     if signature != lastLoggedState {
       lastLoggedState = signature
-      Task { await logger.record(state: String(describing: model.phase), count: model.hiddenCount) }
+      let state = String(describing: model.phase), count = model.hiddenCount, failure = model.failureDiagnostic
+      Task { await logger.record(state: state, count: count, failure: failure) }
     }
     let symbol: String
     switch model.phase {

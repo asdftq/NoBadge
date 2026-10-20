@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.43
+
+- Retry temporary Focus restoration failures automatically with bounded backoff.
+- Keep recovery active until the notification daemon refresh and readback succeed, even when the saved badge setting already matches.
+- Repair unfinished refreshes retired by older releases without overwriting later user preferences.
+- Include privacy-safe failure stages in local diagnostics.
+
 ## 0.1.42
 
 - Restore supported badges when Focus ends during an in-flight badge update; keep automatic Focus syncing enabled.

@@ -9,7 +9,7 @@ actor DiagnosticLogger {
     self.version = version
     self.build = build
   }
-  func record(state: String, count: Int) {
+  func record(state: String, count: Int, failure: String = "") {
     guard count >= 0, state.count < 32 else { return }
     do {
       try FileManager.default.createDirectory(
@@ -19,10 +19,11 @@ actor DiagnosticLogger {
       formatter.timeZone = TimeZone(secondsFromGMT: 0)
       formatter.dateFormat = "yyyy-MM-dd"
       let file = folder.appendingPathComponent(formatter.string(from: .now) + ".jsonl")
-      let event: [String: Any] = [
+      var event: [String: Any] = [
         "time": ISO8601DateFormatter().string(from: .now), "version": version, "osBuild": build,
         "state": state, "ownedCount": count,
       ]
+      if !failure.isEmpty { event["failure"] = String(failure.prefix(256)) }
       var data = try JSONSerialization.data(withJSONObject: event, options: [.sortedKeys])
       data.append(0x0A)
       if !FileManager.default.fileExists(atPath: file.path) {

@@ -34,7 +34,7 @@ enum DisplayPhase: Equatable {
   let engine: BadgeEngine
   let systemBadges: SystemSettingsBadges?
   private var lastSystemBadgeSignature: String?
-  private let reader = PlatformReader()
+  private let reader: PlatformReader
   private let catalog = ApplicationCatalog()
   private var catalogIDs: Set<String> = []
   @Published private(set) var accessChecked = false
@@ -56,6 +56,11 @@ enum DisplayPhase: Equatable {
   // the cached-state fast path can display Off while the owned journal is pending.
   private var restorationRequired = false
   private var startupRecoveryChecked = false
+  private var automaticRecoveryPending = false
+  private var recoveryRetryAfter: ContinuousClock.Instant?
+  private var recoveryRetryTask: Task<Void, Never>?
+  private var recoveryFailures = 0
+  private(set) var failureDiagnostic = ""
   private var unknownSince: ContinuousClock.Instant?
   private var graceTask: Task<Void, Never>?
   private var deadlineTask: Task<Void, Never>?
@@ -80,6 +85,7 @@ enum DisplayPhase: Equatable {
   }
 
   init() {
+    reader = PlatformReader()
     #if DEBUG
       labOnly = true
     #else
@@ -135,6 +141,18 @@ enum DisplayPhase: Equatable {
     settings.normalizeDeadlines(now: .now)
     onboardingStep = min(1, max(0, settings.setupStep ?? 0))
   }
+  #if NOBADGE_TESTING
+  init(engine: BadgeEngine, reader: PlatformReader, folder: URL) {
+    self.engine = engine; self.reader = reader; self.folder = folder
+    labOnly = true; build = "26A434"; version = "test"; qualified = true
+    compatibilityProfile = "test"; systemSettingsSupported = false; systemBadges = nil
+    settingsURL = folder.appendingPathComponent("settings.json")
+    settingsStore = SettingsStore(url: settingsURL)
+    settings.onboardingComplete = true; settings.setupRevision = UserSettings.currentSetupRevision
+    settings.automationEnabled = true
+  }
+  func waitForRefresh() async { await refreshTask?.value }
+  #endif
   var title: String {
     switch phase {
     case .setup: L("Finish setup")
@@ -270,6 +288,7 @@ enum DisplayPhase: Equatable {
       stateChanged?()
       return
     }
+    var stage = "platform-read"
     do {
       let current = try await reader.load()
       guard !stopped else { return }
@@ -279,6 +298,7 @@ enum DisplayPhase: Equatable {
       if focus != current.focus { focus = current.focus }
       let known = current.focus.activeIDs != nil
       if focusAvailable != known { focusAvailable = known }
+      stage = "system-badge-read"
       let systemSignature = try await systemBadges?.signature()
       let records =
         labOnly
@@ -308,6 +328,7 @@ enum DisplayPhase: Equatable {
           phase = .working
           isBusy = true
           stateChanged?()
+          stage = "startup-restore"
           _ = try await restoreAllBadges()
           restorationRequired = false
           isBusy = false
@@ -326,6 +347,24 @@ enum DisplayPhase: Equatable {
         detail = "Allow Full Disk Access to read Focus and manage badges."
         stateChanged?()
         return
+      }
+      if automaticRecoveryPending {
+        if let retry = recoveryRetryAfter, ContinuousClock.now < retry {
+          phase = restorationRequired ? .recovery : .error
+          stateChanged?()
+          return
+        }
+        stage = "automatic-restore"
+        isBusy = true
+        _ = try await restoreAllBadges()
+        isBusy = false
+        restorationRequired = false
+        automaticRecoveryPending = false
+        recoveryRetryAfter = nil
+        recoveryRetryTask?.cancel()
+        recoveryRetryTask = nil
+        safetySuspended = false
+        invalidateAppliedPolicy()
       }
       if restorationRequired {
         if !isBusy { phase = .recovery }
@@ -375,15 +414,18 @@ enum DisplayPhase: Equatable {
         requested = true
         return
       }
+      stage = "notification-reconcile"
       let result = try await engine.reconcile(
         hidden: desired == .hidden, exceptions: expandedExceptions, eligibleIDs: eligible,
         qualified: qualified)
+      stage = "system-badge-reconcile"
       let systemCount = try await systemBadges?.reconcile(
         hidden: desired == .hidden, excepted: expandedExceptions.contains(SystemSettingsBadges.bundleID)) ?? 0
       hiddenCount = result.hiddenCount + systemCount
       isBusy = false
       // Cache our notification writes, but only acknowledge the Focus intent we
       // actually applied. Focus can change while either badge adapter is awaited.
+      stage = "platform-confirm"
       let confirmed = try await reader.load()
       inputs = confirmed
       lastSignature = PlatformInputs(focus: current.focus, notifications: confirmed.notifications).signature
@@ -394,6 +436,7 @@ enum DisplayPhase: Equatable {
         return
       }
       updateVisiblePhase(desired: desired)
+      recoveryFailures = 0
       detail = ""
       reviews.reconciled(
         automatic: settings.automationEnabled && settings.manualHideUntil == nil
@@ -404,6 +447,10 @@ enum DisplayPhase: Equatable {
       stateChanged?()
     } catch {
       isBusy = false
+      let engineFailure = await engine.lastFailure
+      failureDiagnostic = stage + "/" +
+        ((stage.contains("restore") || stage == "notification-reconcile")
+          ? engineFailure ?? error.recoveryDiagnosticCode : error.recoveryDiagnosticCode)
       if !accessChecked { accessChecked = true }
       let ns = error as NSError
       if ns.domain == NSCocoaErrorDomain
@@ -426,10 +473,41 @@ enum DisplayPhase: Equatable {
           _ = try await restoreAllBadges()
           restorationRequired = false
           hiddenCount = 0
+          invalidateAppliedPolicy()
           phase = .error
-        } catch { detail = error.localizedDescription }
+        } catch {
+          detail = error.localizedDescription
+          failureDiagnostic += ";recovery/" + (await engine.lastFailure ?? error.recoveryDiagnosticCode)
+        }
+        if error.permitsAutomaticRecovery {
+          scheduleRecoveryRetry()
+        } else {
+          automaticRecoveryPending = false
+          recoveryRetryTask?.cancel()
+          recoveryRetryTask = nil
+          recoveryRetryAfter = nil
+        }
       }
       stateChanged?()
+    }
+  }
+  private func invalidateAppliedPolicy() {
+    lastAppliedDesired = nil
+    lastSignature = nil
+    lastSystemBadgeSignature = nil
+  }
+  private func scheduleRecoveryRetry() {
+    guard !stopped else { return }
+    automaticRecoveryPending = true
+    recoveryFailures += 1
+    let seconds = [2, 5, 15, 30][min(recoveryFailures - 1, 3)]
+    let deadline = ContinuousClock.now.advanced(by: .seconds(seconds))
+    recoveryRetryAfter = deadline
+    recoveryRetryTask?.cancel()
+    recoveryRetryTask = Task { [weak self] in
+      try? await Task.sleep(until: deadline, clock: .continuous)
+      guard !Task.isCancelled else { return }
+      self?.requestRefresh(force: true)
     }
   }
   private func restoreAllBadges() async throws -> EngineResult {
@@ -576,6 +654,7 @@ enum DisplayPhase: Equatable {
     case .recovery: restoreExplicitly()
     case .error:
       safetySuspended = false
+      recoveryRetryAfter = nil
       save()
       Task {
         await engine.resetFailureBreaker()
@@ -641,12 +720,19 @@ enum DisplayPhase: Equatable {
         restorationRequired = false
         hiddenCount = 0
         safetySuspended = false
+        automaticRecoveryPending = false
+        recoveryRetryTask?.cancel()
+        recoveryRetryTask = nil
+        recoveryRetryAfter = nil
+        recoveryFailures = 0
+        invalidateAppliedPolicy()
         restorationCompleted?()
         await engine.resetFailureBreaker()
         requestRefresh(force: true)
       } catch {
         phase = .recovery
         detail = error.localizedDescription
+        if error.permitsAutomaticRecovery { scheduleRecoveryRetry() }
       }
       isBusy = false
       stateChanged?()
@@ -658,6 +744,7 @@ enum DisplayPhase: Equatable {
     observer.stop()
     graceTask?.cancel()
     deadlineTask?.cancel()
+    recoveryRetryTask?.cancel()
     // Drain a refresh already suspended in an await before the final restore.
     // Otherwise it could enqueue a new hide after restoration cleared the journal.
     await engine.prioritizeRestoration()
@@ -764,7 +851,7 @@ enum DisplayPhase: Equatable {
     stateChanged?()
   }
   private var diagnosticSummary: String {
-    "NoBadge \(version)\nBundle: com.asdftq.nobadge\nOS build: \(build)\nAdapter: usernoted-badge-v1\nProfile: \(compatibilityProfile ?? "unsupported")\nCompatible OS family: \(qualified)\nState: \(phase)\nOwned count: \(hiddenCount)\nAccess: \(hasAccess)\nNo Focus names, app list, notification data, or recovery journal included.\n"
+    "NoBadge \(version)\nBundle: com.asdftq.nobadge\nOS build: \(build)\nAdapter: usernoted-badge-v1\nProfile: \(compatibilityProfile ?? "unsupported")\nCompatible OS family: \(qualified)\nState: \(phase)\nOwned count: \(hiddenCount)\nAccess: \(hasAccess)\nLast failure: \(failureDiagnostic.isEmpty ? "none" : failureDiagnostic)\nNo Focus names, app list, notification data, or recovery journal included.\n"
   }
   func exportDiagnostics() {
     let panel = NSSavePanel()
@@ -775,7 +862,7 @@ enum DisplayPhase: Equatable {
     preview.messageText = L("Review diagnostics")
     preview.informativeText =
       L(
-        "The export contains only version, compatibility, state, and counts. It does not include Focus names, app lists, message data, or recovery journals."
+        "The export contains only version, compatibility, state, counts, and failure stages. It does not include Focus names, app lists, message data, or recovery journals."
       ) + "\n\n" + text
     preview.addButton(withTitle: L("Save…"))
     preview.addButton(withTitle: L("Cancel"))

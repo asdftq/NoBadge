@@ -23,6 +23,7 @@ public actor BadgeEngine {
     private var failures: [ContinuousClock.Instant] = []
     private var restoreRequested=false
     private var intentRevision: UInt64 = 0
+    public private(set) var lastFailure: String?
     public init(store: any NotificationStore, journals: any JournalPersistence, refresher: any DaemonRefreshing, version: String, osBuild: String, verificationDelay: Duration = .milliseconds(500), refreshInterval: TimeInterval = 10, compatibleRecoveryBuilds: Set<String>? = nil, compatibleRecoveryBuildPrefixes: Set<String> = []) {
         self.store=store;self.journals=journals;self.refresher=refresher;self.version=version;self.osBuild=osBuild;self.verificationDelay=verificationDelay;self.refreshInterval=refreshInterval;self.recoveryBuilds=compatibleRecoveryBuilds ?? [osBuild];self.recoveryBuildPrefixes=compatibleRecoveryBuildPrefixes
     }
@@ -33,7 +34,10 @@ public actor BadgeEngine {
     /// Invalidates only work that has not committed; the next refresh uses fresh policy.
     public func invalidatePendingSuppression() { intentRevision &+= 1 }
     public func resetFailureBreaker() { failures=[] }
-    public func pendingRecovery() async throws -> Bool { try await journals.load() != nil }
+    public func pendingRecovery() async throws -> Bool {
+        if try await journals.load() != nil { return true }
+        return try await journals.unfinishedRestorationReceipt() != nil
+    }
 
     public func reconcile(hidden: Bool, exceptions: Set<String> = [], eligibleIDs: Set<String>? = nil, qualified: Bool) async throws -> EngineResult {
         let revision = intentRevision
@@ -125,7 +129,7 @@ public actor BadgeEngine {
         throw EngineError.concurrentModification
     }
     private func restoreAttempt() async throws -> EngineResult {
-        guard var session=try await journals.load() else {return .init(hiddenCount:0,wrote:false,hasSession:false)}
+        guard var session=try await journals.load() else { return try await refreshRetiredReceipt() }
         try session.validateIdentity()
         func compatible(_ build: String) -> Bool {
             recoveryBuilds.contains(build) || recoveryBuildPrefixes.contains {
@@ -135,14 +139,52 @@ public actor BadgeEngine {
         guard compatible(osBuild), compatible(session.osBuild) else { throw EngineError.unsupportedOS }
         if session.ownedIDs.isEmpty {try await journals.clear();return .init(hiddenCount:0,wrote:false,hasSession:false)}
         let snapshot=try await store.read();var bits:[String:Bool]=[:]
+        var originals: [String: Bool] = [:]
         for id in session.ownedIDs {
             guard let record=snapshot.records.first(where:{$0.id==id}) else {session.entries[id]?.absent=true;session.entries[id]?.owned=false;continue}
             let wanted=session.entries[id]!.originalBadgeEnabled
+            originals[id] = wanted
             if record.badgeEnabled != wanted {bits[id]=wanted}
         }
-        if !bits.isEmpty {try await commit(bits:bits,snapshot:snapshot,session:&session,restoring:true)}
+        if !bits.isEmpty {
+            try await commit(bits:bits,snapshot:snapshot,session:&session,restoring:true)
+        } else if !originals.isEmpty {
+            // A previous write can succeed while its daemon refresh fails. Matching
+            // disk bits do not complete that transaction, including after relaunch.
+            session.phase = "restoring"; session.updatedAt = .now
+            try await journals.save(session)
+            try await refreshAndVerify(bits: originals, snapshot: snapshot, session: &session)
+        }
         try await journals.finishRestoration()
         return .init(hiddenCount:0,wrote:!bits.isEmpty,hasSession:false)
+    }
+    private func refreshRetiredReceipt() async throws -> EngineResult {
+        // Older releases could retire a failed refresh. Retry only the refresh of
+        // CURRENT preferences; never replay old originals over subsequent user edits.
+        guard var receipt = try await journals.unfinishedRestorationReceipt() else {
+            return .init(hiddenCount: 0, wrote: false, hasSession: false)
+        }
+        try receipt.validateIdentity()
+        guard recoveryBuilds.contains(osBuild) || recoveryBuildPrefixes.contains(where: {
+            CompatibilityProfile.build(osBuild, hasPrefix: $0)
+        }) else { throw EngineError.unsupportedOS }
+        let snapshot = try await store.read()
+        let bits = Dictionary(uniqueKeysWithValues: snapshot.records.map { ($0.id, $0.badgeEnabled) })
+        var stage = "retired-daemon-refresh"
+        do {
+            try await refresher.refresh(); lastRefresh = .now
+            stage = "retired-verify"
+            try await verify(bits: bits, original: snapshot)
+            if verificationDelay > .zero { try await Task.sleep(for: verificationDelay) }
+            try await verify(bits: bits, original: snapshot)
+            receipt.phase = "applied"; receipt.updatedAt = .now; receipt.lastVerifiedAt = .now
+            try await journals.finishReceiptRefresh(receipt)
+            lastFailure = nil
+        } catch {
+            lastFailure = stage + "/" + error.recoveryDiagnosticCode
+            throw error
+        }
+        return .init(hiddenCount: 0, wrote: false, hasSession: false)
     }
     private func commit(bits: [String:Bool], snapshot: NotificationSnapshot, session: inout RecoveryJournal, restoring: Bool) async throws {
         session.phase=restoring ? "restoring" : "prepared";session.updatedAt = .now;session.transactionSequence += 1
@@ -150,15 +192,25 @@ public actor BadgeEngine {
         session.preWriteFingerprint=snapshot.fingerprint;session.intendedPostFingerprint=NotificationSnapshot.hash(data)
         try await journals.save(session)
         try await store.write(data:data,expectedFingerprint:snapshot.fingerprint)
+        try await refreshAndVerify(bits: bits, snapshot: snapshot, session: &session)
+    }
+    private func refreshAndVerify(bits: [String: Bool], snapshot: NotificationSnapshot,
+                                  session: inout RecoveryJournal) async throws {
+        var stage = "daemon-refresh"
         do {
             try await refresher.refresh();lastRefresh = .now
+            stage = "verify-immediate"
             try await verify(bits:bits,original:snapshot)
             if verificationDelay > .zero {try await Task.sleep(for:verificationDelay)}
+            stage = "verify-delayed"
             try await verify(bits:bits,original:snapshot)
             for id in bits.keys {session.entries[id]?.verified=true}
             session.phase="applied";session.lastVerifiedAt = .now;session.updatedAt = .now
+            stage = "journal-applied"
             try await journals.save(session)
+            lastFailure = nil
         } catch {
+            lastFailure = stage + "/" + error.recoveryDiagnosticCode
             session.phase="needsRecovery";session.updatedAt = .now
             // Preserve the prior prepared journal even when saving the error phase fails.
             try? await journals.save(session);throw error

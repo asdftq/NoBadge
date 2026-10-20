@@ -45,9 +45,13 @@ public protocol JournalPersistence: Sendable {
     func save(_ journal: RecoveryJournal) async throws
     func clear() async throws
     func finishRestoration() async throws
+    func unfinishedRestorationReceipt() async throws -> RecoveryJournal?
+    func finishReceiptRefresh(_ journal: RecoveryJournal) async throws
 }
 public extension JournalPersistence {
     func finishRestoration() async throws { try await clear() }
+    func unfinishedRestorationReceipt() async throws -> RecoveryJournal? { nil }
+    func finishReceiptRefresh(_ journal: RecoveryJournal) async throws {}
 }
 public actor FileJournalStore: JournalPersistence {
     private struct Envelope: Codable { let payload: Data; let checksum: String }
@@ -96,6 +100,16 @@ public actor FileJournalStore: JournalPersistence {
             throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO)
         }
         syncDirectory(folder)
+    }
+    public func unfinishedRestorationReceipt() async throws -> RecoveryJournal? {
+        let receipt = FileJournalStore(url: url.deletingLastPathComponent().appendingPathComponent("last-restored-session.json"))
+        guard let session = try await receipt.load(),
+              session.phase == "needsRecovery" || session.phase == "restoring" else { return nil }
+        return session
+    }
+    public func finishReceiptRefresh(_ journal: RecoveryJournal) async throws {
+        let receipt = FileJournalStore(url: url.deletingLastPathComponent().appendingPathComponent("last-restored-session.json"))
+        try await receipt.save(journal)
     }
     private func syncDirectory(_ folder: URL) { let fd=open(folder.path,O_RDONLY);if fd>=0 {_=fsync(fd);close(fd)} }
 }

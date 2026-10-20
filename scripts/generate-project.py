@@ -32,6 +32,10 @@ res=add('resources','PBXResourcesBuildPhase',buildActionMask=2147483647,files=re
 testRefs=[];testBuilds=[]
 for p in sorted((root/'Packages/NoBadgeCore/Tests/NoBadgeCoreTests').glob('*.swift')):
  rel=str(p.relative_to(root));r=add(rel,'PBXFileReference',lastKnownFileType='sourcecode.swift',path=rel,sourceTree='<group>');testRefs.append(r);testBuilds.append(add(rel+'testbuild','PBXBuildFile',fileRef=r))
+for p in sorted((root/'Tests/AppModel').glob('*.swift')) + [root/'NoBadge/Model/AppModel.swift']:
+ rel=str(p.relative_to(root));r=add(rel,'PBXFileReference',lastKnownFileType='sourcecode.swift',path=rel,sourceTree='<group>')
+ if r not in refs:testRefs.append(r)
+ testBuilds.append(add(rel+'testbuild','PBXBuildFile',fileRef=r))
 objects[main]['children'].extend(testRefs)
 testProduct=add('tests-product','PBXFileReference',explicitFileType='wrapper.cfbundle',path='NoBadgeTests.xctest',sourceTree='BUILT_PRODUCTS_DIR')
 objects[products]['children'].append(testProduct)
@@ -39,7 +43,7 @@ testSources=add('tests-sources','PBXSourcesBuildPhase',buildActionMask=214748364
 testFrameworks=add('tests-frameworks','PBXFrameworksBuildPhase',buildActionMask=2147483647,files=[add('test-core-link','PBXBuildFile',productRef=dependency)],runOnlyForDeploymentPostprocessing=0)
 testConfigs=[]
 for name in ['Debug','Release']:
- testConfigs.append(add('tests'+name,'XCBuildConfiguration',buildSettings={'PRODUCT_NAME':'NoBadgeTests','PRODUCT_BUNDLE_IDENTIFIER':'com.asdftq.nobadge.tests','GENERATE_INFOPLIST_FILE':'YES','SWIFT_VERSION':'6.0','MACOSX_DEPLOYMENT_TARGET':'15.0','SDKROOT':'macosx','ENABLE_TESTABILITY':'YES','ONLY_ACTIVE_ARCH':'YES','SWIFT_OPTIMIZATION_LEVEL':'-Onone','LD_RUNPATH_SEARCH_PATHS':'$(inherited) @loader_path/Frameworks @executable_path/../Frameworks'},name=name))
+ testConfigs.append(add('tests'+name,'XCBuildConfiguration',buildSettings={'PRODUCT_NAME':'NoBadgeTests','PRODUCT_BUNDLE_IDENTIFIER':'com.asdftq.nobadge.tests','GENERATE_INFOPLIST_FILE':'YES','SWIFT_VERSION':'6.0','SWIFT_ACTIVE_COMPILATION_CONDITIONS':'NOBADGE_TESTING','MACOSX_DEPLOYMENT_TARGET':'15.0','SDKROOT':'macosx','ENABLE_TESTABILITY':'YES','ONLY_ACTIVE_ARCH':'YES','SWIFT_OPTIMIZATION_LEVEL':'-Onone','LD_RUNPATH_SEARCH_PATHS':'$(inherited) @loader_path/Frameworks @executable_path/../Frameworks'},name=name))
 testConfigList=add('tests-configlist','XCConfigurationList',buildConfigurations=testConfigs,defaultConfigurationIsVisible=0,defaultConfigurationName='Debug')
 testTarget=add('tests-target','PBXNativeTarget',buildConfigurationList=testConfigList,buildPhases=[testSources,testFrameworks],buildRules=[],dependencies=[],name='NoBadgeTests',packageProductDependencies=[dependency],productName='NoBadgeTests',productReference=testProduct,productType='com.apple.product-type.bundle.unit-test')
 version=(root/'VERSION').read_text().strip()

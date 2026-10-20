@@ -96,6 +96,7 @@ public actor SystemSettingsBadges {
         // an old dictionary over current system attention state.
         for (id, original) in session.originals where before[id] == 0 { desired[id] = original }
         if desired != before { try write(desired, expected: before, source: source) }
+        else { notify() } // A prior write may have failed readback before notifying Dock.
         try clear()
     }
     private func write(_ desired: [String: Int], expected: [String: Int], source: String? = nil) throws {

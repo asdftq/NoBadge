@@ -17,7 +17,7 @@ The website version is a ready-to-install, signed and notarized download with in
 - Show badges for 15 minutes without switching Focus off.
 - Restore the badge settings NoBadge changed when Focus ends.
 
-Version **0.1.42** fixes a Focus-transition race that could leave badges hidden after Focus ended. Keep **Hide automatically during Focus** enabled and choose **Any Focus** for normal on/off syncing. No manual restore is needed when Focus ends. **Restore previous settings** temporarily shows badges for 15 minutes; **Resume now** ends that pause early.
+Version **0.1.43** retries temporary restoration failures automatically and keeps recovery pending until the macOS refresh is verified. It also completes unfinished refreshes left by older releases without replaying old settings over later user changes. Keep **Hide automatically during Focus** enabled and choose **Any Focus** for normal on/off syncing. No manual restore is needed when Focus ends. **Restore previous settings** temporarily shows badges for 15 minutes; **Resume now** ends that pause early.
 
 ## Before you run it
 
