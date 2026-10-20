@@ -59,7 +59,6 @@ enum DisplayPhase: Equatable {
   private var automaticRecoveryPending = false
   private var recoveryRetryAfter: ContinuousClock.Instant?
   private var recoveryRetryTask: Task<Void, Never>?
-  private var recoveryFailures = 0
   private(set) var failureDiagnostic = ""
   private var unknownSince: ContinuousClock.Instant?
   private var graceTask: Task<Void, Never>?
@@ -75,8 +74,9 @@ enum DisplayPhase: Equatable {
   var languageChanged: (() -> Void)?
   @Published var updatesConfigured = false
   @Published var showReviewInvitation = false
-  lazy var observer = ChangeObserver(systemBadges: systemSettingsSupported) {
-    [weak self] in self?.requestRefresh()
+  lazy var observer = ChangeObserver(systemBadges: systemSettingsSupported,
+    interval: TimeInterval(settings.focusSyncInterval.rawValue)) {
+    [weak self] change in self?.requestRefresh(interrupt: change == .event)
   }
   lazy var reviews = ReviewRequestCoordinator(folder: folder, labOnly: labOnly)
   func openFeedback() {
@@ -223,11 +223,13 @@ enum DisplayPhase: Equatable {
     requestRefresh(force: true)
     scheduleDeadline()
   }
-  func requestRefresh(force: Bool = false) {
+  func requestRefresh(force: Bool = false, interrupt: Bool = true) {
     guard !stopped else { return }
     requested = true
     forceRequested = forceRequested || force
     guard !processing else {
+      // Polls queue a fresh read without cancelling an in-flight transaction.
+      guard interrupt else { return }
       // A new Focus event or user choice must interrupt a pending suppression delay.
       forceRequested = true
       if interruptionTask == nil {
@@ -436,7 +438,6 @@ enum DisplayPhase: Equatable {
         return
       }
       updateVisiblePhase(desired: desired)
-      recoveryFailures = 0
       detail = ""
       reviews.reconciled(
         automatic: settings.automationEnabled && settings.manualHideUntil == nil
@@ -499,8 +500,7 @@ enum DisplayPhase: Equatable {
   private func scheduleRecoveryRetry() {
     guard !stopped else { return }
     automaticRecoveryPending = true
-    recoveryFailures += 1
-    let seconds = [2, 5, 15, 30][min(recoveryFailures - 1, 3)]
+    let seconds = settings.focusSyncInterval.rawValue
     let deadline = ContinuousClock.now.advanced(by: .seconds(seconds))
     recoveryRetryAfter = deadline
     recoveryRetryTask?.cancel()
@@ -605,6 +605,13 @@ enum DisplayPhase: Equatable {
     save()
     requestRefresh(force: true)
     scheduleDeadline()
+  }
+  func setFocusSyncInterval(_ interval: FocusSyncInterval) {
+    guard settings.focusSyncInterval != interval else { return }
+    settings.focusSyncInterval = interval
+    save()
+    observer.setInterval(TimeInterval(interval.rawValue))
+    if automaticRecoveryPending { scheduleRecoveryRetry() }
   }
   func setSelection(_ ids: Set<String>?) {
     settings.selectedFocusIDs = ids
@@ -724,7 +731,6 @@ enum DisplayPhase: Equatable {
         recoveryRetryTask?.cancel()
         recoveryRetryTask = nil
         recoveryRetryAfter = nil
-        recoveryFailures = 0
         invalidateAppliedPolicy()
         restorationCompleted?()
         await engine.resetFailureBreaker()

@@ -15,11 +15,6 @@ enum SettingsSection { case general }
     var changed: (() -> Void)?
     func start() {}
 }
-@MainActor final class ChangeObserver {
-    init(systemBadges: Bool, changed: @escaping @MainActor () -> Void) {}
-    func start() {}
-    func stop() {}
-}
 @MainActor final class ReviewRequestCoordinator {
     init(folder: URL, labOnly: Bool) {}
     func reconciled(automatic: Bool, focusActive: Bool, hidden: Bool, restored: Bool) {}

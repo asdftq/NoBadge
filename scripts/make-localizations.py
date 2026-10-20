@@ -7,6 +7,11 @@ for p in (root/'NoBadge').rglob('*.swift'):
 for p in (root/'Packages/NoBadgeCore/Sources/NoBadgeCore').glob('*.swift'):
  keys.update(re.findall(r'case [^\n]+: "([^"\n]+)"',p.read_text()))
 ko={
+'Focus sync interval':'집중 모드 동기화 간격',
+'1 second (default)':'1초 (기본값)',
+'2 seconds':'2초','5 seconds':'5초','10 seconds':'10초','30 seconds':'30초',
+'How often NoBadge checks Focus and retries temporary errors. Changes apply immediately.':'집중 모드를 확인하고 일시적인 오류를 다시 시도하는 간격입니다. 변경 사항은 바로 적용됩니다.',
+
 'Only supported apps are listed. Some custom app-drawn badges may remain.':'지원하는 앱만 표시됩니다. 앱이 직접 그리는 일부 배지는 남아 있을 수 있습니다.',
 'System Settings Dock badges are supported on this Mac.':'이 Mac에서는 시스템 설정의 Dock 배지를 지원합니다.',
 'System Settings Dock badges are not supported on this macOS version.':'이 macOS 버전에서는 시스템 설정의 Dock 배지를 지원하지 않습니다.',

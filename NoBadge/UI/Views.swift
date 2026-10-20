@@ -68,7 +68,7 @@ struct SettingsView: View {
         case .license: LicenseView(license: model.license)
         }
       }.padding(24).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    }.frame(minWidth: 680, minHeight: 500)
+    }.frame(minWidth: 680, minHeight: 560)
       .modifier(NoticeModifier(model: model)).environment(\.locale, model.appLocale)
       .sheet(isPresented: $showSelectedFocus) { focusPicker }
   }
@@ -114,6 +114,22 @@ struct SettingsView: View {
       }
       if model.settings.selectedFocusIDs?.isEmpty == true {
         Text(L("Choose at least one Focus.")).font(.caption).foregroundStyle(.orange)
+      }
+      VStack(alignment: .leading, spacing: 6) {
+        HStack {
+          Text(L("Focus sync interval"))
+          Spacer()
+          Picker(L("Focus sync interval"), selection: Binding(
+            get: { model.settings.focusSyncInterval }, set: { model.setFocusSyncInterval($0) })) {
+            Text(L("1 second (default)")).tag(FocusSyncInterval.oneSecond)
+            Text(L("2 seconds")).tag(FocusSyncInterval.twoSeconds)
+            Text(L("5 seconds")).tag(FocusSyncInterval.fiveSeconds)
+            Text(L("10 seconds")).tag(FocusSyncInterval.tenSeconds)
+            Text(L("30 seconds")).tag(FocusSyncInterval.thirtySeconds)
+          }.labelsHidden().frame(width: 180).accessibilityIdentifier("focus-sync-interval")
+        }
+        Text(L("How often NoBadge checks Focus and retries temporary errors. Changes apply immediately."))
+          .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
       }
       Divider()
       HStack {

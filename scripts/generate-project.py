@@ -32,7 +32,7 @@ res=add('resources','PBXResourcesBuildPhase',buildActionMask=2147483647,files=re
 testRefs=[];testBuilds=[]
 for p in sorted((root/'Packages/NoBadgeCore/Tests/NoBadgeCoreTests').glob('*.swift')):
  rel=str(p.relative_to(root));r=add(rel,'PBXFileReference',lastKnownFileType='sourcecode.swift',path=rel,sourceTree='<group>');testRefs.append(r);testBuilds.append(add(rel+'testbuild','PBXBuildFile',fileRef=r))
-for p in sorted((root/'Tests/AppModel').glob('*.swift')) + [root/'NoBadge/Model/AppModel.swift']:
+for p in sorted((root/'Tests/AppModel').glob('*.swift')) + [root/'NoBadge/Model/AppModel.swift', root/'NoBadge/Platform/ChangeObserver.swift']:
  rel=str(p.relative_to(root));r=add(rel,'PBXFileReference',lastKnownFileType='sourcecode.swift',path=rel,sourceTree='<group>')
  if r not in refs:testRefs.append(r)
  testBuilds.append(add(rel+'testbuild','PBXBuildFile',fileRef=r))

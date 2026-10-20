@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "1 second (default)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 second (default)"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1초 (기본값)"
+          }
+        }
+      }
+    },
     "1. Open Privacy & Security → Full Disk Access.": {
       "localizations": {
         "en": {
@@ -29,6 +45,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "1. 아래에서 시스템 설정을 여세요."
+          }
+        }
+      }
+    },
+    "10 seconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 seconds"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10초"
+          }
+        }
+      }
+    },
+    "2 seconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 seconds"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2초"
           }
         }
       }
@@ -77,6 +125,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "3. 여기로 돌아오세요. macOS가 요청하면 NoBadge를 종료 후 다시 여세요."
+          }
+        }
+      }
+    },
+    "30 seconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 seconds"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30초"
+          }
+        }
+      }
+    },
+    "5 seconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 seconds"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5초"
           }
         }
       }
@@ -1169,6 +1249,22 @@
         }
       }
     },
+    "Focus sync interval": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Focus sync interval"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드 동기화 간격"
+          }
+        }
+      }
+    },
     "Full Disk Access allows broad file access. NoBadge uses it only for Focus and notification settings; it does not read messages or documents.": {
       "localizations": {
         "en": {
@@ -1389,6 +1485,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "NoBadge는 어떠셨나요?"
+          }
+        }
+      }
+    },
+    "How often NoBadge checks Focus and retries temporary errors. Changes apply immediately.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How often NoBadge checks Focus and retries temporary errors. Changes apply immediately."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "집중 모드를 확인하고 일시적인 오류를 다시 시도하는 간격입니다. 변경 사항은 바로 적용됩니다."
           }
         }
       }

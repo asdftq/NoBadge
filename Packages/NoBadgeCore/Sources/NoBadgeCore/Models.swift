@@ -5,6 +5,10 @@ public enum AppLanguage: String, CaseIterable, Sendable {
     case korean = "ko"
 }
 
+public enum FocusSyncInterval: Int, CaseIterable, Sendable {
+    case oneSecond = 1, twoSeconds = 2, fiveSeconds = 5, tenSeconds = 10, thirtySeconds = 30
+}
+
 public struct UserSettings: Codable, Equatable, Sendable {
     public static let currentSetupRevision = 1
     public var setupRevision: Int? = nil
@@ -21,6 +25,12 @@ public struct UserSettings: Codable, Equatable, Sendable {
     public var updatePreferencesRevision: Int? = nil
     // Optional for settings saved before the language picker existed.
     public var languageCode: String? = nil
+    // Optional so upgrades preserve all existing settings and use the new default.
+    public var focusSyncIntervalSeconds: Int? = nil
+    public var focusSyncInterval: FocusSyncInterval {
+        get { FocusSyncInterval(rawValue: focusSyncIntervalSeconds ?? 1) ?? .oneSecond }
+        set { focusSyncIntervalSeconds = newValue.rawValue }
+    }
     public var appLanguage: AppLanguage {
         get { AppLanguage(rawValue: languageCode ?? "") ?? .english }
         set { languageCode = newValue.rawValue }

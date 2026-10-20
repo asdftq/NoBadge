@@ -40,3 +40,20 @@ import Testing
   let saved = try JSONDecoder().decode(UserSettings.self, from: Data(contentsOf: url))
   #expect(!saved.automationEnabled)
 }
+
+@Test func focusSyncIntervalMigratesAndPersistsWithoutResettingPreferences() throws {
+  var old = UserSettings()
+  old.automationEnabled = true
+  old.exceptionBundleIDs = ["test.keep-visible"]
+  let legacy = try JSONEncoder().encode(old)
+  var decoded = try JSONDecoder().decode(UserSettings.self, from: legacy)
+  #expect(decoded.focusSyncInterval == .oneSecond)
+  #expect(decoded.automationEnabled)
+  #expect(decoded.exceptionBundleIDs == old.exceptionBundleIDs)
+  decoded.focusSyncInterval = .fiveSeconds
+  let saved = try JSONDecoder().decode(UserSettings.self, from: JSONEncoder().encode(decoded))
+  #expect(saved.focusSyncInterval == .fiveSeconds)
+  #expect(saved.exceptionBundleIDs == old.exceptionBundleIDs)
+  decoded.focusSyncIntervalSeconds = 0
+  #expect(decoded.focusSyncInterval == .oneSecond)
+}

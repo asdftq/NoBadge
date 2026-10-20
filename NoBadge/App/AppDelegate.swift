@@ -241,11 +241,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
     let created = settingsWindow == nil
     if created {
       let window = NSWindow(
-        contentRect: NSRect(x: 0, y: 0, width: 720, height: 520),
+        contentRect: NSRect(x: 0, y: 0, width: 720, height: 560),
         styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered,
         defer: false)
       window.title = L("NoBadge Settings")
-      window.contentMinSize = NSSize(width: 680, height: 500)
+      window.contentMinSize = NSSize(width: 680, height: 560)
       window.delegate = self
       window.isReleasedWhenClosed = false
       window.contentViewController = NSHostingController(rootView: SettingsView(model: model))

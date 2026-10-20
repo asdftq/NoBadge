@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.44
+
+- Check Focus every second by default, including upgrades from earlier releases.
+- Add General → Focus sync interval with 1, 2, 5, 10 and 30 second choices; changes apply immediately and persist across restarts.
+- Use the selected interval for temporary recovery retries, including recovery already waiting to retry.
+- Keep periodic checks from cancelling badge updates already in progress. Event-driven Focus changes remain responsive.
+
 ## 0.1.43
 
 - Retry temporary Focus restoration failures automatically with bounded backoff.
