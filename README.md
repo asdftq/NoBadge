@@ -2,7 +2,7 @@
 
 Hide supported Dock badges while macOS Focus is on. Bring your previous badge settings back when it ends.
 
-**[Get the signed Mac app — $2.99 once](https://www.asdftq.com/nobadge/?utm_source=github&utm_medium=readme&utm_campaign=nobadge_source)** · [Setup and compatibility](https://www.asdftq.com/nobadge/support.html)
+**[Get the signed Mac app — $2.99 once](https://www.asdftq.com/nobadge/?utm_source=github&utm_medium=readme&utm_campaign=nobadge_source)** · [Setup and compatibility](https://www.asdftq.com/nobadge/support.html) · [Why not the Mac App Store?](#why-not-the-mac-app-store)
 
 The website version is a ready-to-install, signed and notarized download with in-app updates. One purchase covers up to 3 Macs. If you prefer to build it yourself, the source is MIT licensed and the source build needs no purchase key.
 
@@ -38,6 +38,12 @@ Quit any running NoBadge copy before using another build. Use **Restore & Quit**
 | Other custom app-drawn badges | Not guaranteed | Not guaranteed |
 
 System Settings uses a separate, journaled adapter. Version 0.1.41 fixes a storage-selection bug in 0.1.40 that could leave its Dock badge visible. It follows Focus, Show badges, app exceptions and safe exit/update restoration. It preserves current external attention entries; it does not resolve the underlying system requests or hide notices inside System Settings. Supported adapters are declared per OS family. Unknown settings formats pause changes rather than reporting a successful hide.
+
+## Why not the Mac App Store?
+
+NoBadge's current implementation reads private macOS Focus files and changes other apps' notification preferences outside its own app container. Its notification adapter also uses a private macOS preferences API.
+
+Apple requires Mac App Store apps to be [sandboxed](https://developer.apple.com/documentation/security/protecting-user-data-with-app-sandbox) and [use only public APIs (App Review Guideline 2.5.1)](https://developer.apple.com/app-store/review/guidelines/#software-requirements). These requirements rule out NoBadge's current implementation, so it is distributed directly as a signed and notarized download. An App Store version would need a different implementation that meets those requirements.
 
 ## Build from source
 
