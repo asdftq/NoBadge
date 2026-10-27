@@ -71,6 +71,9 @@ import UserNotifications
             let settings = await center.notificationSettings()
             let delivered = await center.deliveredNotifications()
             self.status.stringValue = message + "\nBadge permission: " + (settings.badgeSetting == .enabled ? "enabled" : "disabled") + " · delivered: \(delivered.count)"
+                + "\nAuthorization: \(settings.authorizationStatus.rawValue) · Sound: \(settings.soundSetting.rawValue) · Alert: \(settings.alertSetting.rawValue)"
+                + "\nLock screen: \(settings.lockScreenSetting.rawValue) · Center: \(settings.notificationCenterSetting.rawValue) · Preview: \(settings.showPreviewsSetting.rawValue)"
+
         }
     }
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions { [.badge] }

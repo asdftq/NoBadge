@@ -48,6 +48,7 @@ enum DisplayPhase: Equatable {
   private var processing = false
   private var refreshTask: Task<Void, Never>?
   private var interruptionTask: Task<Void, Never>?
+  private var pollingFocusTask: Task<Void, Never>?
   private var requested = false
   private var forceRequested = false
   private var stopped = false
@@ -228,8 +229,11 @@ enum DisplayPhase: Equatable {
     requested = true
     forceRequested = forceRequested || force
     guard !processing else {
-      // Polls queue a fresh read without cancelling an in-flight transaction.
-      guard interrupt else { return }
+      // Busy polls still observe Focus so a suppression cooldown cannot delay restoration.
+      guard interrupt else {
+        checkFocusWhileProcessing()
+        return
+      }
       // A new Focus event or user choice must interrupt a pending suppression delay.
       forceRequested = true
       if interruptionTask == nil {
@@ -240,6 +244,7 @@ enum DisplayPhase: Equatable {
     processing = true
     refreshTask = Task {
       while requested && !stopped {
+        await pollingFocusTask?.value
         await interruptionTask?.value
         interruptionTask = nil
         requested = false
@@ -248,6 +253,19 @@ enum DisplayPhase: Equatable {
         await refresh(force: force)
       }
       processing = false
+    }
+  }
+  private func checkFocusWhileProcessing() {
+    guard pollingFocusTask == nil, let expectedFocus = inputs?.focus else { return }
+    pollingFocusTask = Task {
+      defer { pollingFocusTask = nil }
+      let observation = await reader.loadFocus()
+      guard !stopped, !Task.isCancelled, observation != expectedFocus else { return }
+      // Polling unchanged Focus must leave transactions alone. A changed intent
+      // preempts only uncommitted suppression; completed writes still drain safely.
+      requested = true
+      forceRequested = true
+      await engine.invalidatePendingSuppression()
     }
   }
   private func refresh(force: Bool) async {
@@ -751,6 +769,8 @@ enum DisplayPhase: Equatable {
     graceTask?.cancel()
     deadlineTask?.cancel()
     recoveryRetryTask?.cancel()
+    pollingFocusTask?.cancel()
+    await pollingFocusTask?.value
     // Drain a refresh already suspended in an await before the final restore.
     // Otherwise it could enqueue a new hide after restoration cleared the journal.
     await engine.prioritizeRestoration()

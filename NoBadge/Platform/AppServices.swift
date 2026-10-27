@@ -14,6 +14,9 @@ struct PlatformInputs: Sendable {
 actor PlatformReader {
   func load() async throws -> PlatformInputs {
     let snapshot = try await FileNotificationStore(url: FileNotificationStore.currentURL).read()
+    return PlatformInputs(focus: loadFocus(), notifications: snapshot)
+  }
+  func loadFocus() -> FocusObservation {
     let db = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(
       "Library/DoNotDisturb/DB")
     let focus: FocusObservation
@@ -28,7 +31,7 @@ actor PlatformReader {
         || (ns.domain == NSPOSIXErrorDomain && [Int(EACCES), Int(EPERM)].contains(ns.code))
       focus = .unknown(denied ? "focusAccessDenied" : "focusUnavailable")
     }
-    return PlatformInputs(focus: focus, notifications: snapshot)
+    return focus
   }
 }
 func currentArchitecture() -> String {

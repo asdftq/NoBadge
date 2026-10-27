@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.46
+
+- Keep checking Focus while a badge update is waiting, so leaving Focus can preempt an uncommitted ten-second suppression delay.
+- Preserve ongoing writes, existing recovery journals, notification settings and the supported macOS families.
+- The one-second setting controls observation cadence; macOS notification-service restart delays can still affect visible badge updates.
+
 ## 0.1.45
 
 - Stop the menu bar checkmark flickering during repeated checks after Do Not Disturb changes.

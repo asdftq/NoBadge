@@ -43,6 +43,7 @@ actor PlatformReader {
     var store: AppRecoveryStore?
     var observation: FocusObservation = .known(activeIDs: ["work"], modes: [])
     init(store: AppRecoveryStore? = nil) { self.store = store }
+    func loadFocus() -> FocusObservation { observation }
     func setFocus(_ on: Bool) { observation = .known(activeIDs: on ? ["work"] : [], modes: []) }
     func load() async throws -> PlatformInputs {
         guard let store else { throw EngineError.unavailable("Test reader not configured") }
