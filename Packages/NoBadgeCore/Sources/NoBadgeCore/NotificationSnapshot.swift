@@ -75,11 +75,14 @@ public struct NotificationSnapshot: @unchecked Sendable {
         func normalized(_ tree: [String: Any]) -> NSDictionary {
             var copy = tree
             var apps = copy["apps"] as! [[String: Any]]
-            // Observed on 25F80: IDS re-registers this legacy service record,
-            // then usernoted prunes it. The real Messages preference is MobileSMS.
+            // IDS re-registers this legacy service record, then usernoted prunes
+            // it. 25F80 used the bundle path; 26A434 also records its executable.
+            // The real Messages preference is MobileSMS and must remain strict.
             apps.removeAll {
                 ($0["bundle-id"] as? String) == "com.apple.iChat" &&
-                ($0["path"] as? String) == "/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app" &&
+                ["/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app",
+                 "/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app/Contents/MacOS/identityservicesd"]
+                    .contains($0["path"] as? String ?? "") &&
                 $0["auth"] == nil && !ids.contains("com.apple.iChat")
             }
             for i in apps.indices {

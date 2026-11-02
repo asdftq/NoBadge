@@ -10,7 +10,9 @@ import Foundation
       pending[id] = continuation
       Task { self.finish(id, success: await model.prepareToQuit()) }
       timers[id] = Task {
-        try? await Task.sleep(for: .seconds(5))
+        // Allow the old process exit (5s), launchd restart deferral (up to 10s)
+        // and verified readback before presenting a quit failure.
+        try? await Task.sleep(for: .seconds(20))
         guard !Task.isCancelled else { return }
         self.finish(id, success: false)
       }

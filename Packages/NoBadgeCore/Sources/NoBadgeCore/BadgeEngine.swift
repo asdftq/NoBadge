@@ -196,7 +196,7 @@ public actor BadgeEngine {
                 // without enabling apps for which we have no original settings.
                 let snapshot = try await store.read()
                 let bits = Dictionary(uniqueKeysWithValues: snapshot.records.map { ($0.id, $0.badgeEnabled) })
-                try await refreshAndVerify(bits: bits, snapshot: snapshot, session: &session)
+                try await refreshAndVerify(bits: bits, snapshot: snapshot, session: &session, restoring: true)
                 try await journals.finishRestoration()
             } else { try await journals.clear() }
             return .init(hiddenCount:0,wrote:false,hasSession:false)
@@ -216,7 +216,7 @@ public actor BadgeEngine {
             // disk bits do not complete that transaction, including after relaunch.
             session.phase = "restoring"; session.updatedAt = .now
             try await journals.save(session)
-            try await refreshAndVerify(bits: originals, snapshot: snapshot, session: &session)
+            try await refreshAndVerify(bits: originals, snapshot: snapshot, session: &session, restoring: true)
         }
         try await journals.finishRestoration()
         return .init(hiddenCount:0,wrote:!bits.isEmpty,hasSession:false)
@@ -236,6 +236,8 @@ public actor BadgeEngine {
         var stage = "retired-daemon-refresh"
         do {
             try await refresher.refresh(); lastRefresh = .now
+            stage = "retired-daemon-ready"
+            try await refresher.waitUntilReady()
             stage = "retired-verify"
             try await verify(bits: bits, original: snapshot)
             if verificationDelay > .zero { try await Task.sleep(for: verificationDelay) }
@@ -255,13 +257,17 @@ public actor BadgeEngine {
         session.preWriteFingerprint=snapshot.fingerprint;session.intendedPostFingerprint=NotificationSnapshot.hash(data)
         try await journals.save(session)
         try await store.write(data:data,expectedFingerprint:snapshot.fingerprint)
-        try await refreshAndVerify(bits: bits, snapshot: snapshot, session: &session)
+        try await refreshAndVerify(bits: bits, snapshot: snapshot, session: &session, restoring: restoring)
     }
     private func refreshAndVerify(bits: [String: Bool], snapshot: NotificationSnapshot,
-                                  session: inout RecoveryJournal) async throws {
+                                  session: inout RecoveryJournal, restoring: Bool = false) async throws {
         var stage = "daemon-refresh"
         do {
             try await refresher.refresh();lastRefresh = .now
+            if restoring {
+                stage = "daemon-ready"
+                try await refresher.waitUntilReady()
+            }
             stage = "verify-immediate"
             try await verify(bits:bits,original:snapshot)
             if verificationDelay > .zero {try await Task.sleep(for:verificationDelay)}
@@ -280,7 +286,7 @@ public actor BadgeEngine {
         }
     }
     private func verify(bits:[String:Bool], original:NotificationSnapshot) async throws {
-        let current=try await store.read()
+        let current=try await store.readForVerification()
         guard bits.allSatisfy({id,bit in current.records.first(where:{$0.id==id})?.badgeEnabled == bit}),
               original.preferencesEqual(current,excludingBadgeBitsFor:Set(bits.keys)) else {throw EngineError.verificationFailed}
     }

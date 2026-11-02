@@ -4,7 +4,11 @@ import Foundation
 
 public protocol NotificationStore: Sendable {
   func read() async throws -> NotificationSnapshot
+  func readForVerification() async throws -> NotificationSnapshot
   func write(data: Data, expectedFingerprint: String) async throws
+}
+public extension NotificationStore {
+  func readForVerification() async throws -> NotificationSnapshot { try await read() }
 }
 
 public actor FileNotificationStore: NotificationStore {
@@ -35,6 +39,26 @@ public actor FileNotificationStore: NotificationStore {
     let snapshot = try NotificationSnapshot(data: Data(contentsOf: url))
     if url == Self.currentURL && snapshot.schemaVersion != 1 { throw EngineError.invalidSchema }
     return snapshot
+  }
+  public func readForVerification() throws -> NotificationSnapshot {
+    guard let preferencesDomain else { return try read() }
+    let container = try containerClient()
+    let identifier = preferencesDomain as CFString
+    guard container?.synchronize()
+      ?? CFPreferencesSynchronize(identifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+    else { throw EngineError.unavailable("Cannot synchronize notification settings.") }
+    let snapshot = try read()
+    let cached: CFTypeRef?
+    if let container { cached = container.value(for: "apps") }
+    else { cached = CFPreferencesCopyValue("apps" as CFString, identifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost) }
+    guard let apps = cached as? [[String: Any]], try snapshot.preferencesMatchCachedApplications(apps)
+    else { throw EngineError.verificationFailed }
+    return snapshot
+  }
+  private func containerClient() throws -> ContainerPreferences? {
+    try useContainerPreferences ? ContainerPreferences(
+      identifier: url.deletingPathExtension().lastPathComponent,
+      container: url.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()) : nil
   }
   private func conflict(_ stage: String) -> EngineError {
     if CommandLine.arguments.contains("--trace-transactions") {
@@ -82,11 +106,7 @@ public actor FileNotificationStore: NotificationStore {
     throws
   {
     let identifier = domain as CFString
-    let container = useContainerPreferences
-      ? try ContainerPreferences(
-        identifier: url.deletingPathExtension().lastPathComponent,
-        container: url.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent())
-      : nil
+    let container = try containerClient()
     func synchronize() -> Bool {
       container?.synchronize()
         ?? CFPreferencesSynchronize(identifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
@@ -140,27 +160,40 @@ public actor FileNotificationStore: NotificationStore {
 
 }
 
-public protocol DaemonRefreshing: Sendable { func refresh() async throws }
+public protocol DaemonRefreshing: Sendable {
+  func refresh() async throws
+  func waitUntilReady() async throws
+}
+public extension DaemonRefreshing {
+  func waitUntilReady() async throws {}
+}
 public struct UserNotificationRefresher: DaemonRefreshing {
   private let command: @Sendable (String, [String]) async throws -> Int32
   private let processIDs: @Sendable () async throws -> Set<Int32>
   private let exitAttempts: Int
   private let exitDelay: Duration
+  private let readyAttempts: Int
+  private let readyDelay: Duration
   public init() {
     command = Self.execute
     processIDs = Self.runningProcessIDs
     exitAttempts = 100
     exitDelay = .milliseconds(50)
+    readyAttempts = 120
+    readyDelay = .milliseconds(100)
   }
   init(
     command: @escaping @Sendable (String, [String]) async throws -> Int32,
     processIDs: @escaping @Sendable () async throws -> Set<Int32> = { [] },
-    exitAttempts: Int = 100, exitDelay: Duration = .milliseconds(50)
+    exitAttempts: Int = 100, exitDelay: Duration = .milliseconds(50),
+    readyAttempts: Int = 120, readyDelay: Duration = .milliseconds(100)
   ) {
     self.command = command
     self.processIDs = processIDs
     self.exitAttempts = exitAttempts
     self.exitDelay = exitDelay
+    self.readyAttempts = readyAttempts
+    self.readyDelay = readyDelay
   }
   public func refresh() async throws {
     let user = NSUserName()
@@ -181,6 +214,16 @@ public struct UserNotificationRefresher: DaemonRefreshing {
     // but a still-running process (including a permission failure) must fail closed.
     let running = try await command("/usr/bin/pgrep", ["-u", String(getuid()), "-x", "usernoted"])
     guard running == 1 else { throw EngineError.refreshFailed(status) }
+  }
+  public func waitUntilReady() async throws {
+    // Exiting the previous process is not an acknowledgement from its replacement.
+    // launchd can defer usernoted's restart for ten seconds. Restoration must keep
+    // its durable originals until that process starts and fresh preferences agree.
+    for _ in 0..<readyAttempts {
+      if try await !processIDs().isEmpty { return }
+      try await Task.sleep(for: readyDelay, clock: .continuous)
+    }
+    throw EngineError.refreshFailed(Int32(ETIMEDOUT))
   }
   private static func runningProcessIDs() async throws -> Set<Int32> {
     let process = Process()

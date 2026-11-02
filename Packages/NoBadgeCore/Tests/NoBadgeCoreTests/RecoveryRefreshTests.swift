@@ -16,6 +16,81 @@ private actor BadgeConsumer: DaemonRefreshing {
     }
 }
 
+/// A replacement service can apply a cached snapshot only after it has started.
+private actor RestartingConsumer: DaemonRefreshing {
+    let store: MemoryStore
+    var rollBackAtStartup = false
+    var ready = true
+    init(_ store: MemoryStore) { self.store = store }
+    func rollBackOnce() { rollBackAtStartup = true }
+    func refresh() { ready = false }
+    func waitUntilReady() async throws {
+        if rollBackAtStartup {
+            rollBackAtStartup = false
+            try await store.externallySet(["a": false])
+        }
+        ready = true
+    }
+}
+
+@Test func restorationDoesNotRetireOriginalsBeforeReplacementServiceLoadsItsSettings() async throws {
+    let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: folder) }
+    let original = try fixture([["bundle-id": "a", "flags": 7], ["bundle-id": "b", "flags": 5]])
+    let store = MemoryStore(original)
+    let journal = FileJournalStore(url: folder.appendingPathComponent("active-session.json"))
+    let consumer = RestartingConsumer(store)
+    let engine = BadgeEngine(store: store, journals: journal, refresher: consumer,
+        version: "test", osBuild: "26A434", verificationDelay: .zero, refreshInterval: 0)
+    _ = try await engine.reconcile(hidden: true, qualified: true)
+    await consumer.rollBackOnce()
+    await #expect(throws: EngineError.verificationFailed) { try await engine.restore() }
+    #expect(await consumer.ready)
+    #expect(try await journal.load()?.entries["a"]?.originalBadgeEnabled == true)
+    #expect(try await engine.pendingRecovery())
+    _ = try await engine.restore()
+    #expect(await consumer.ready)
+    #expect(original.semanticallyEquals(await store.value))
+    #expect(try await engine.pendingRecovery() == false)
+}
+
+private actor PruningIDSConsumer: DaemonRefreshing {
+    let store: MemoryStore
+    var prune = false
+    init(_ store: MemoryStore) { self.store = store }
+    func pruneOnRefresh() { prune = true }
+    func refresh() async throws {
+        guard prune else { return }
+        prune = false
+        let records = await store.value.records.filter { $0.id != "com.apple.iChat" }
+        let apps: [[String: Any]] = records.map {
+            var app: [String: Any] = ["bundle-id": $0.id, "flags": $0.flags]
+            if let path = $0.path { app["path"] = path }
+            return app
+        }
+        await store.replace(try fixture(apps))
+    }
+}
+
+@Test func legacyIDSExecutablePruningDoesNotFailRealMessagesRestoration() async throws {
+    let original = try fixture([
+        ["bundle-id": "com.apple.MobileSMS", "flags": 7],
+        ["bundle-id": "disabled.app", "flags": 5],
+        ["bundle-id": "com.apple.iChat", "flags": 41943054,
+         "path": "/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app/Contents/MacOS/identityservicesd"],
+    ])
+    let store = MemoryStore(original), journal = MemoryJournal()
+    let consumer = PruningIDSConsumer(store)
+    let engine = BadgeEngine(store: store, journals: journal, refresher: consumer,
+        version: "test", osBuild: "26A434", verificationDelay: .zero, refreshInterval: 0)
+    _ = try await engine.reconcile(hidden: true, eligibleIDs: ["com.apple.MobileSMS"], qualified: true)
+    await consumer.pruneOnRefresh()
+    _ = try await engine.restore()
+    #expect(await store.value.flags(for: "com.apple.MobileSMS") == 7)
+    #expect(await store.value.flags(for: "disabled.app") == 5)
+    #expect(try await engine.pendingRecovery() == false)
+}
+
 @Test func restorationRetriesRefreshAfterBitsWereAlreadyWritten() async throws {
     let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: folder) }

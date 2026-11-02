@@ -65,3 +65,21 @@ private actor DaemonProcesses {
   }
   #expect(await processes.reads == 4)
 }
+
+@Test func restorationReadinessWaitsForReplacementProcess() async throws {
+  let processes = DaemonProcesses([[], [], [43]])
+  let refresher = UserNotificationRefresher(command: { _, _ in 0 },
+    processIDs: { await processes.next() }, readyAttempts: 3, readyDelay: .zero)
+  try await refresher.waitUntilReady()
+  #expect(await processes.reads == 3)
+}
+
+@Test func missingReplacementProcessCannotCompleteRestoration() async throws {
+  let processes = DaemonProcesses([[]])
+  let refresher = UserNotificationRefresher(command: { _, _ in 0 },
+    processIDs: { await processes.next() }, readyAttempts: 3, readyDelay: .zero)
+  await #expect(throws: EngineError.refreshFailed(Int32(ETIMEDOUT))) {
+    try await refresher.waitUntilReady()
+  }
+  #expect(await processes.reads == 3)
+}

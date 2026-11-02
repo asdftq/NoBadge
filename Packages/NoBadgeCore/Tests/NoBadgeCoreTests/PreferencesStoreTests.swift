@@ -42,7 +42,7 @@ private func nativePreferences(identifier: String, container: URL) throws -> Use
   try await store.write(data: before.patched(["a": true]), expectedFingerprint: before.fingerprint)
   #expect(native.synchronize())
   #expect((native.array(forKey: "apps")?.first as? [String: Any])?["flags"] as? Int == 7)
-  #expect(original.preferencesEqual(try await store.read()))
+  #expect(original.preferencesEqual(try await store.readForVerification()))
 }
 
 @Test func preferenceServiceUpdatesCacheAndPreservesUnrelatedKeys() async throws {

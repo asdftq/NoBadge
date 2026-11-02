@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.48
+
+- Fix real restoration failures when macOS removes the legacy IDS/iChat registration stored with its executable path. This service metadata is separate from the actual Messages badge preference.
+
+- Keep original app badge settings in active recovery until the replacement macOS notification service has started and post-refresh preferences are verified. Previously, service absence during a delayed restart could be reported as restoration complete.
+- Verify both the preference-service cache and the stored badge settings, retaining recovery if startup changes or disagrees with restored values.
+- Allow normal quit/update restoration to finish through macOS restart deferral before presenting a timeout. Badge adapters, supported OS families and original disabled badge choices are preserved.
+
 ## 0.1.47
 
 - Add Help & Recovery → Recover missing badges, with a preview of saved app settings and explicit confirmation.
