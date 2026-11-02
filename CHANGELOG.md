@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.47
+
+- Add Help & Recovery → Recover missing badges, with a preview of saved app settings and explicit confirmation.
+- Recover app badge settings from the last restoration receipt even if a later macOS cache update disabled them again. Ordinary automatic restoration still leaves completed receipts untouched.
+- Turn off automatic hiding during explicit recovery, refresh macOS even without saved originals, and retain failed recovery for retry. Unrecorded disabled badges and unrelated notification settings stay unchanged.
+- Restore pending System Settings recovery through its existing adapter; completed System Settings attention counters and custom app-drawn badges are outside this receipt recovery.
+
 ## 0.1.46
 
 - Keep checking Focus while a badge update is waiting, so leaving Focus can preempt an uncommitted ten-second suppression delay.

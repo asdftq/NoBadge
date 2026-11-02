@@ -71,6 +71,10 @@ struct SettingsView: View {
     }.frame(minWidth: 680, minHeight: 560)
       .modifier(NoticeModifier(model: model)).environment(\.locale, model.appLocale)
       .sheet(isPresented: $showSelectedFocus) { focusPicker }
+      .sheet(isPresented: Binding(
+        get: { model.badgeRecoveryPlan != nil },
+        set: { if !$0 { model.badgeRecoveryPlan = nil } })
+      ) { badgeRecovery }
   }
   private var general: some View {
     VStack(alignment: .leading, spacing: 18) {
@@ -194,43 +198,61 @@ struct SettingsView: View {
   }
   private var help: some View {
     VStack(alignment: .leading, spacing: 16) {
-      HStack {
-        Label(
-          model.hasAccess ? L("Full Disk Access is enabled") : L("Full Disk Access is needed"),
-          systemImage: model.hasAccess ? "checkmark.circle.fill" : "exclamationmark.circle"
-        )
-        .foregroundStyle(model.hasAccess ? brand : .orange)
-        Spacer()
-        Button(L("Review setup")) { model.reviewSetup() }
-      }
-      Text(
-        L(
-          "Pause NoBadge before changing badge settings in System Settings. Reopen NoBadge after a force quit to restore pending settings."
-        )
-      )
-      .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-      Button(L("Restore previous settings")) { model.restoreExplicitly() }.disabled(model.isBusy)
-      Divider()
-      Text(
-        L(
-          "Diagnostics contain only app version, compatibility and status. Your Focus names, app list and messages stay private."
-        )
-      )
-      .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-      Button(L("Export diagnostics…")) { model.exportDiagnostics() }
-      DisclosureGroup(L("Compatibility details")) {
-        VStack(alignment: .leading, spacing: 4) {
-          Text("macOS \(model.build) · NoBadge \(model.version)")
-          Text(model.systemSettingsSupported
-            ? L("System Settings Dock badges are supported on this Mac.")
-            : L("System Settings Dock badges are not supported on this macOS version."))
+      ScrollView {
+        VStack(alignment: .leading, spacing: 16) {
+          HStack {
+            Label(
+              model.hasAccess ? L("Full Disk Access is enabled") : L("Full Disk Access is needed"),
+              systemImage: model.hasAccess ? "checkmark.circle.fill" : "exclamationmark.circle"
+            )
+            .foregroundStyle(model.hasAccess ? brand : .orange)
+            Spacer()
+            Button(L("Review setup")) { model.reviewSetup() }
+          }
           Text(
-            model.qualified
-              ? L("This macOS family is supported. Settings are checked before changes.")
-              : L("This macOS version or Mac architecture needs a compatible NoBadge update."))
-        }.font(.caption).padding(.top, 6)
+            L(
+              "Pause NoBadge before changing badge settings in System Settings. Reopen NoBadge after a force quit to restore pending settings."
+            )
+          )
+          .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+          Button(L("Restore previous settings")) { model.restoreExplicitly() }.disabled(model.isBusy)
+          VStack(alignment: .leading, spacing: 8) {
+            Text(L("Badges still missing?")).font(.headline)
+            Text(L("Recover saved app badge settings and refresh macOS. Automatic hiding stays off afterward."))
+              .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            Button(L("Recover missing badges…")) { Task { await model.previewBadgeRecovery() } }
+              .disabled(model.isBusy || !model.qualified)
+              .accessibilityIdentifier("recover-missing-badges")
+            if let message = model.badgeRecoveryMessage {
+              Text(message).font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            } else if model.phase == .recovery {
+              Text(L(model.detail)).font(.caption).foregroundStyle(.orange)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+          }
+          Divider()
+          Text(
+            L(
+              "Diagnostics contain only app version, compatibility and status. Your Focus names, app list and messages stay private."
+            )
+          )
+          .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+          Button(L("Export diagnostics…")) { model.exportDiagnostics() }
+          DisclosureGroup(L("Compatibility details")) {
+            VStack(alignment: .leading, spacing: 4) {
+              Text("macOS \(model.build) · NoBadge \(model.version)")
+              Text(model.systemSettingsSupported
+                ? L("System Settings Dock badges are supported on this Mac.")
+                : L("System Settings Dock badges are not supported on this macOS version."))
+              Text(
+                model.qualified
+                  ? L("This macOS family is supported. Settings are checked before changes.")
+                  : L("This macOS version or Mac architecture needs a compatible NoBadge update."))
+            }.font(.caption).padding(.top, 6)
+          }
+        }.frame(maxWidth: .infinity, alignment: .leading)
       }
-      Spacer(minLength: 0)
       Divider()
       HStack {
         Text(L("Restore badges before removing NoBadge.")).font(.caption).foregroundStyle(
@@ -239,6 +261,33 @@ struct SettingsView: View {
         Button(L("Prepare to uninstall")) { model.prepareToUninstall() }.disabled(model.isBusy)
       }
     }
+  }
+  private var badgeRecovery: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      Text(L("Recover missing badges")).font(.title2).fontWeight(.semibold)
+      if let candidates = model.badgeRecoveryPlan?.bundleIDs, !candidates.isEmpty {
+        Text(L("Enable badges again for these apps using NoBadge’s saved settings. This can also re-enable badges you turned off afterward."))
+          .fixedSize(horizontal: false, vertical: true)
+        ScrollView {
+          VStack(alignment: .leading, spacing: 8) {
+            ForEach(candidates, id: \.self) { id in
+              Text(model.applications.first { $0.recordIDs.contains(id) }?.name ?? id)
+            }
+          }.frame(maxWidth: .infinity, alignment: .leading)
+        }.frame(maxHeight: 160)
+      } else {
+        Text(L("No saved app badge settings were found. Recovery will refresh macOS without enabling additional badges."))
+          .fixedSize(horizontal: false, vertical: true)
+      }
+      Text(L("Automatic hiding will stay off. You can turn it back on in General."))
+        .font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+      HStack {
+        Spacer()
+        Button(L("Cancel")) { model.badgeRecoveryPlan = nil }.keyboardShortcut(.cancelAction)
+        Button(L("Recover badges")) { Task { await model.recoverMissingBadges() } }
+          .buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
+      }
+    }.padding(24).frame(width: 440)
   }
   private var about: some View {
     VStack(alignment: .leading, spacing: 16) {

@@ -45,11 +45,13 @@ public protocol JournalPersistence: Sendable {
     func save(_ journal: RecoveryJournal) async throws
     func clear() async throws
     func finishRestoration() async throws
+    func lastRestorationReceipt() async throws -> RecoveryJournal?
     func unfinishedRestorationReceipt() async throws -> RecoveryJournal?
     func finishReceiptRefresh(_ journal: RecoveryJournal) async throws
 }
 public extension JournalPersistence {
     func finishRestoration() async throws { try await clear() }
+    func lastRestorationReceipt() async throws -> RecoveryJournal? { nil }
     func unfinishedRestorationReceipt() async throws -> RecoveryJournal? { nil }
     func finishReceiptRefresh(_ journal: RecoveryJournal) async throws {}
 }
@@ -101,9 +103,12 @@ public actor FileJournalStore: JournalPersistence {
         }
         syncDirectory(folder)
     }
-    public func unfinishedRestorationReceipt() async throws -> RecoveryJournal? {
+    public func lastRestorationReceipt() async throws -> RecoveryJournal? {
         let receipt = FileJournalStore(url: url.deletingLastPathComponent().appendingPathComponent("last-restored-session.json"))
-        guard let session = try await receipt.load(),
+        return try await receipt.load()
+    }
+    public func unfinishedRestorationReceipt() async throws -> RecoveryJournal? {
+        guard let session = try await lastRestorationReceipt(),
               session.phase == "needsRecovery" || session.phase == "restoring" else { return nil }
         return session
     }

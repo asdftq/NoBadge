@@ -5,6 +5,10 @@ public struct EngineResult: Equatable, Sendable {
     public let wrote: Bool
     public let hasSession: Bool
 }
+public struct BadgeRecoveryPlan: Sendable {
+    public let bundleIDs: [String]
+    let sessions: [RecoveryJournal]
+}
 
 /// Serializes across awaits as well as actor isolation; an actor alone is reentrant.
 public actor BadgeEngine {
@@ -115,6 +119,55 @@ public actor BadgeEngine {
         }
     }
     public func restore() async throws -> EngineResult {restoreRequested=true;await acquire();defer {restoreRequested=false;release()};return try await restoreLocked()}
+    /// Completed receipts are read only for this explicit, user-confirmed action.
+    public func badgeRecoveryPlan(eligibleIDs: Set<String>? = nil) async throws -> BadgeRecoveryPlan {
+        await acquire(); defer { release() }
+        let saved = try await recoverySessions()
+        let present = Set(try await store.read().records.map(\.id))
+        let ids = saved.reduce(into: Set<String>()) { ids, session in
+            ids.formUnion(session.ownedIDs.filter { session.entries[$0]?.originalBadgeEnabled == true })
+        }.intersection(present)
+        return BadgeRecoveryPlan(bundleIDs: ids.intersection(eligibleIDs ?? ids).sorted(), sessions: saved)
+    }
+    public func recoverMissingBadges(_ plan: BadgeRecoveryPlan) async throws -> EngineResult {
+        restoreRequested = true; await acquire()
+        defer { restoreRequested = false; release() }
+        // Capture both before retirement can replace the previous receipt. Keep
+        // active originals authoritative and enroll only the approved old IDs.
+        let saved = try await recoverySessions()
+        for previous in plan.sessions {
+            try previous.validateIdentity()
+            guard compatibleRecoveryBuild(previous.osBuild) else { throw EngineError.unsupportedOS }
+        }
+        var session = saved.first ?? RecoveryJournal(version: version, osBuild: osBuild)
+        let allowed = plan.sessions.reduce(into: Set<String>()) { ids, journal in
+            ids.formUnion(journal.ownedIDs.filter { journal.entries[$0]?.originalBadgeEnabled == true })
+        }
+        for id in Set(plan.bundleIDs).intersection(allowed) where session.entries[id]?.owned != true {
+            session.entries[id] = JournalEntry(bundleID: id, originalBadgeEnabled: true)
+        }
+        // A receipt alone must not restore unapproved IDs. The first element is
+        // always the active session, or a new empty session when none is pending.
+        session.phase = "restoring"; session.updatedAt = .now
+        try await journals.save(session)
+        return try await restoreLocked()
+    }
+    private func recoverySessions() async throws -> [RecoveryJournal] {
+        let active = try await journals.load()
+        let receipt = try await journals.lastRestorationReceipt()
+        let sessions = [active, receipt].compactMap { $0 }
+        guard compatibleRecoveryBuild(osBuild) else { throw EngineError.unsupportedOS }
+        for session in sessions {
+            try session.validateIdentity()
+            guard compatibleRecoveryBuild(session.osBuild) else { throw EngineError.unsupportedOS }
+        }
+        return [active ?? RecoveryJournal(version: version, osBuild: osBuild)] + [receipt].compactMap { $0 }
+    }
+    private func compatibleRecoveryBuild(_ build: String) -> Bool {
+        recoveryBuilds.contains(build) || recoveryBuildPrefixes.contains {
+            CompatibilityProfile.build(build, hasPrefix: $0)
+        }
+    }
     private func restoreLocked() async throws -> EngineResult {
         // usernoted can update registration metadata immediately after suppression.
         // A conflict means no write happened. Re-read and recompute restoration,
@@ -137,7 +190,17 @@ public actor BadgeEngine {
             }
         }
         guard compatible(osBuild), compatible(session.osBuild) else { throw EngineError.unsupportedOS }
-        if session.ownedIDs.isEmpty {try await journals.clear();return .init(hiddenCount:0,wrote:false,hasSession:false)}
+        if session.ownedIDs.isEmpty {
+            if session.phase == "restoring" || session.phase == "needsRecovery" {
+                // Explicit recovery also refreshes already-enabled/cached badges
+                // without enabling apps for which we have no original settings.
+                let snapshot = try await store.read()
+                let bits = Dictionary(uniqueKeysWithValues: snapshot.records.map { ($0.id, $0.badgeEnabled) })
+                try await refreshAndVerify(bits: bits, snapshot: snapshot, session: &session)
+                try await journals.finishRestoration()
+            } else { try await journals.clear() }
+            return .init(hiddenCount:0,wrote:false,hasSession:false)
+        }
         let snapshot=try await store.read();var bits:[String:Bool]=[:]
         var originals: [String: Bool] = [:]
         for id in session.ownedIDs {

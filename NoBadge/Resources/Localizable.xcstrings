@@ -449,6 +449,22 @@
         }
       }
     },
+    "Automatic hiding will stay off. You can turn it back on in General.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic hiding will stay off. You can turn it back on in General."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자동 숨김은 꺼진 상태로 유지됩니다. 일반 설정에서 다시 켤 수 있습니다."
+          }
+        }
+      }
+    },
     "Back": {
       "localizations": {
         "en": {
@@ -497,6 +513,22 @@
         }
       }
     },
+    "Badge settings restored. Automatic hiding is off. Open an affected app to check its Dock badge; macOS may take a moment to update it.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Badge settings restored. Automatic hiding is off. Open an affected app to check its Dock badge; macOS may take a moment to update it."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지 설정을 복구했습니다. 자동 숨김은 꺼져 있습니다. 해당 앱을 열어 Dock 배지를 확인하세요. macOS에서 반영하는 데 잠시 걸릴 수 있습니다."
+          }
+        }
+      }
+    },
     "Badges do not control notification sounds, banners, or message delivery. Focus handles those settings.": {
       "localizations": {
         "en": {
@@ -509,6 +541,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "배지 숨김은 알림 소리, 배너, 메시지 수신을 제어하지 않습니다. 해당 설정은 집중 모드에서 관리합니다."
+          }
+        }
+      }
+    },
+    "Badges still missing?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Badges still missing?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지가 여전히 보이지 않나요?"
           }
         }
       }
@@ -1105,6 +1153,22 @@
         }
       }
     },
+    "Enable badges again for these apps using NoBadge’s saved settings. This can also re-enable badges you turned off afterward.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable badges again for these apps using NoBadge’s saved settings. This can also re-enable badges you turned off afterward."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NoBadge에 저장된 설정으로 아래 앱의 배지를 다시 켭니다. 이후 직접 끈 배지도 다시 켜질 수 있습니다."
+          }
+        }
+      }
+    },
     "Enter your purchase license key to use NoBadge.": {
       "localizations": {
         "en": {
@@ -1661,6 +1725,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "로그인 설정을 변경할 수 없습니다."
+          }
+        }
+      }
+    },
+    "No saved app badge settings were found. Recovery will refresh macOS without enabling additional badges.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No saved app badge settings were found. Recovery will refresh macOS without enabling additional badges."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장된 앱 배지 설정이 없습니다. 추가로 배지를 켜지 않고 macOS 상태만 새로고침합니다."
           }
         }
       }
@@ -2253,6 +2333,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "준비됐어요. 평소처럼 집중 모드를 켜세요."
+          }
+        }
+      }
+    },
+    "Recover badges": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover badges"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배지 복구"
+          }
+        }
+      }
+    },
+    "Recover missing badges": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover missing badges"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사라진 배지 복구"
+          }
+        }
+      }
+    },
+    "Recover missing badges…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover missing badges…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사라진 배지 복구…"
+          }
+        }
+      }
+    },
+    "Recover saved app badge settings and refresh macOS. Automatic hiding stays off afterward.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover saved app badge settings and refresh macOS. Automatic hiding stays off afterward."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "저장된 앱 배지 설정을 복구하고 macOS 상태를 새로고침합니다. 복구 후에는 자동 숨김이 꺼진 상태로 유지됩니다."
           }
         }
       }
@@ -3421,6 +3565,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "이 Mac에서 구매 라이선스가 활성화되었습니다."
+          }
+        }
+      }
+    },
+    "macOS badge settings refreshed. Automatic hiding is off. Open an affected app to check its Dock badge; macOS may take a moment to update it.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS badge settings refreshed. Automatic hiding is off. Open an affected app to check its Dock badge; macOS may take a moment to update it."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 배지 상태를 새로고침했습니다. 자동 숨김은 꺼져 있습니다. 해당 앱을 열어 Dock 배지를 확인하세요. macOS에서 반영하는 데 잠시 걸릴 수 있습니다."
           }
         }
       }

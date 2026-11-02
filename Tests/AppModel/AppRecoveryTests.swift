@@ -3,6 +3,43 @@ import NoBadgeCore
 import Testing
 
 @Suite @MainActor struct AppRecoveryTests {
+    @Test func explicitBadgeRecoveryReplaysReceiptAndKeepsAutomaticHidingOff() async throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let store = try AppRecoveryStore()
+        let reader = PlatformReader(store: store)
+        let consumer = AppBadgeConsumer(store: store)
+        let engine = BadgeEngine(store: store,
+            journals: FileJournalStore(url: folder.appendingPathComponent("active-session.json")),
+            refresher: consumer, version: "test", osBuild: "26A434",
+            verificationDelay: .zero, refreshInterval: 0)
+        _ = try await engine.reconcile(hidden: true, qualified: true)
+        _ = try await engine.restore()
+        let snapshot = await store.read()
+        try await store.write(data: snapshot.patched(["com.asdftq.nobadge.fixture.audit": false]),
+            expectedFingerprint: snapshot.fingerprint)
+        try await consumer.refresh()
+        await reader.setFocus(false)
+        let model = AppModel(engine: engine, reader: reader, folder: folder)
+        model.requestRefresh()
+        await model.waitForRefresh()
+        #expect(await consumer.badge == false)
+        await model.previewBadgeRecovery()
+        #expect(model.badgeRecoveryPlan?.bundleIDs == ["com.asdftq.nobadge.fixture.audit"])
+        await reader.setFocus(true)
+        await model.recoverMissingBadges()
+        model.requestRefresh()
+        await model.waitForRefresh()
+        #expect(await consumer.badge)
+        #expect(!model.settings.automationEnabled)
+        #expect(model.phase == .off)
+        #expect(model.badgeRecoveryMessage != nil)
+        #expect(try await engine.pendingRecovery() == false)
+        #expect(await model.prepareToQuit())
+        let saved = try JSONDecoder().decode(UserSettings.self,
+            from: Data(contentsOf: folder.appendingPathComponent("settings.json")))
+        #expect(!saved.automationEnabled)
+    }
     @Test func menuBarIconStaysSettledDuringFocusRechecks() async throws {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: folder) }

@@ -22,12 +22,36 @@ import Testing
   _ = try await engine.restore()
   // A completed receipt must not automatically overwrite later external edits.
   #expect(await store.value.flags(for: "a") == 13)
-  try await active.save(recovered)
+  let plan = try await engine.badgeRecoveryPlan()
+  #expect(plan.bundleIDs == ["a"])
   let relaunched = BadgeEngine(store: store, journals: active, refresher: refresh,
     version: "test", osBuild: "test", verificationDelay: .zero, refreshInterval: 0)
-  _ = try await relaunched.restore()
+  _ = try await relaunched.recoverMissingBadges(plan)
   #expect(await store.value.flags(for: "a") == 15)
   #expect(await store.value.flags(for: "b") == 5)
+  #expect(try await active.load() == nil)
+}
+
+@Test func explicitRefreshWithoutHistoryPreservesDisabledBadgesAndRetainsFailedRecovery() async throws {
+  let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+  defer { try? FileManager.default.removeItem(at: folder) }
+  let journals = FileJournalStore(url: folder.appendingPathComponent("active-session.json"))
+  let baseline = try fixture([["bundle-id": "a", "flags": 7], ["bundle-id": "b", "flags": 5]])
+  let store = MemoryStore(baseline)
+  let refresh = MemoryRefresh()
+  let engine = BadgeEngine(store: store, journals: journals, refresher: refresh,
+    version: "test", osBuild: "test", verificationDelay: .zero, refreshInterval: 0)
+  let plan = try await engine.badgeRecoveryPlan()
+  #expect(plan.bundleIDs.isEmpty)
+  await refresh.setFailure(true)
+  await #expect(throws: (any Error).self) { try await engine.recoverMissingBadges(plan) }
+  #expect(try await engine.pendingRecovery())
+  #expect(await store.writes == 0)
+  await refresh.setFailure(false)
+  _ = try await engine.restore()
+  #expect(await refresh.count == 2)
+  #expect(try await engine.pendingRecovery() == false)
+  #expect(baseline.semanticallyEquals(await store.value))
 }
 
 @Test func receiptFailureKeepsTheActiveRecoveryJournal() async throws {

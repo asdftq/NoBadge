@@ -24,6 +24,9 @@ enum DisplayPhase: Equatable {
   @Published var onboardingStep = 0
   @Published var loginRequested = false
   @Published var errorNotice: String?
+  @Published var badgeRecoveryPlan: BadgeRecoveryPlan?
+  @Published var badgeRecoveryMessage: String?
+  private var manualRecoveryInProgress = false
   let labOnly: Bool
   let folder: URL
   let build: String
@@ -528,11 +531,15 @@ enum DisplayPhase: Equatable {
       self?.requestRefresh(force: true)
     }
   }
-  private func restoreAllBadges() async throws -> EngineResult {
+  private func restoreAllBadges(recovering plan: BadgeRecoveryPlan? = nil) async throws -> EngineResult {
     // Each independent adapter must get a recovery attempt even when another
     // path fails; keep the first failure and its journal visible to the user.
     let regular: Result<EngineResult, Error>
-    do { regular = .success(try await engine.restore()) }
+    do {
+      if let plan {
+        regular = .success(try await engine.recoverMissingBadges(plan))
+      } else { regular = .success(try await engine.restore()) }
+    }
     catch { regular = .failure(error) }
     do { try await systemBadges?.restore() }
     catch { _ = try regular.get(); throw error }
@@ -760,6 +767,81 @@ enum DisplayPhase: Equatable {
       }
       isBusy = false
       stateChanged?()
+    }
+  }
+  func previewBadgeRecovery() async {
+    guard !isBusy, !manualRecoveryInProgress else { return }
+    isBusy = true
+    defer { isBusy = false }
+    do {
+      badgeRecoveryMessage = nil
+      let eligible = labOnly ? Set(inputs?.notifications.records
+        .filter { $0.id.hasPrefix("com.asdftq.nobadge.fixture.") }.map(\.id) ?? []) : nil
+      badgeRecoveryPlan = try await engine.badgeRecoveryPlan(eligibleIDs: eligible)
+    } catch { errorNotice = L(error.localizedDescription) }
+  }
+  func recoverMissingBadges() async {
+    guard !isBusy, !manualRecoveryInProgress, let plan = badgeRecoveryPlan else { return }
+    manualRecoveryInProgress = true
+    badgeRecoveryPlan = nil
+    badgeRecoveryMessage = nil
+    isBusy = true
+    restorationRequired = true
+    // Stop and drain background work before promoting a completed receipt. The
+    // user's explicit recovery must not race a new suppression or auto-restore.
+    stopped = true
+    observer.stop()
+    graceTask?.cancel()
+    deadlineTask?.cancel()
+    recoveryRetryTask?.cancel()
+    pollingFocusTask?.cancel()
+    automaticRecoveryPending = false
+    recoveryRetryAfter = nil
+    settings.automationEnabled = false
+    settings.manualHideUntil = nil
+    settings.pauseUntil = nil
+    save()
+    phase = .working
+    stateChanged?()
+    await engine.prioritizeRestoration()
+    await interruptionTask?.value
+    await pollingFocusTask?.value
+    await refreshTask?.value
+    var retryRecovery = false
+    defer {
+      stopped = false
+      manualRecoveryInProgress = false
+      isBusy = false
+      observer.start()
+      if retryRecovery { scheduleRecoveryRetry() }
+      stateChanged?()
+    }
+    guard await finishSavingSettings() else {
+      phase = .error
+      return
+    }
+    do {
+      _ = try await restoreAllBadges(recovering: plan)
+      restorationRequired = false
+      hiddenCount = 0
+      safetySuspended = false
+      automaticRecoveryPending = false
+      recoveryRetryAfter = nil
+      invalidateAppliedPolicy()
+      await engine.resetFailureBreaker()
+      restorationCompleted?()
+      phase = .off
+      badgeRecoveryMessage = plan.bundleIDs.isEmpty
+        ? L("macOS badge settings refreshed. Automatic hiding is off. Open an affected app to check its Dock badge; macOS may take a moment to update it.")
+        : L("Badge settings restored. Automatic hiding is off. Open an affected app to check its Dock badge; macOS may take a moment to update it.")
+    } catch {
+      phase = .recovery
+      detail = error.localizedDescription
+      failureDiagnostic = "manual-recovery/" + (await engine.lastFailure ?? error.recoveryDiagnosticCode)
+      // If promotion itself failed, no system write occurred. Keep the error
+      // visible for another explicit attempt instead of "retrying" a no-op restore.
+      let durableRecovery = (try? await pendingBadgeRecovery()) == true
+      retryRecovery = error.permitsAutomaticRecovery && durableRecovery
     }
   }
   func prepareToQuit() async -> Bool {
